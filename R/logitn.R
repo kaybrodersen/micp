@@ -1,0 +1,101 @@
+# ------------------------------------------------------------------------------
+# An R implementation of the logit-normal density.
+#
+# Kay H. Brodersen, ETH Zurich, Switzerland
+# $Id: logitn.R 19160 2013-03-25 13:18:49Z bkay $
+# ------------------------------------------------------------------------------
+logitnpdf <- function(x, mu, sigma) {
+  # Probability density function.
+
+  assert(length(mu) == 1, "mu must be a scalar");
+  assert(length(sigma) == 1, "sigma must be a scalar");
+  assert(sigma > 0, "sigma must be positive");
+
+  y <- 1/(sigma*sqrt(2*pi)) * exp(-((logit(x)-mu)^2/(2*sigma^2))) / (x*(1-x));
+  y[is.na(y)] <- 0;
+  return(y)
+}
+
+# ------------------------------------------------------------------------------
+logitncdf <- function(x, mu, sigma) {
+  # Cumulative density function.
+
+  if (is.na(mu) | is.na(sigma)) { return(NA) }
+  assert(length(mu) == 1, "mu must be a scalar");
+  assert(length(sigma) == 1, "sigma must be a scalar");
+  assert(sigma > 0, "sigma must be positive");
+
+  p <- 1/2 * (1 + erf((logit(x) - mu) / (sqrt(2) * sigma)));
+  p[x >= 1] <- 1;
+  p[x <= 0] <- 0;
+  return(p)
+}
+
+# ------------------------------------------------------------------------------
+logitninv <- function(p, mu, sigma) {
+  # Inverse cumulative density function.
+
+  if (is.na(mu) | is.na(sigma)) { return(NA) }
+  assert(length(p) == 1, "p must be a scalar")
+  assert(length(mu) == 1, "mu must be a scalar");
+  assert(length(sigma) == 1, "sigma must be a scalar");
+  assert(sigma > 0, "sigma must be positive");
+
+  x <- rep(NA, length(mu))
+  if ((p<0) || (p>1)) {
+    x <- rep(NA, length(mu))
+  } else if (p == 0) {
+    x <- rep(0, length(mu))
+  } else if (p == 1) {
+    x <- rep(1, length(mu))
+  } else {
+    for (i in (1:length(mu))) {
+      # Strategy: find root of logitncdf(x, mu, sigma) - p
+      f <- function(z) logitncdf(z, mu[i], sigma[i]) - p;
+      x[i] = uniroot(f, c(0, 1))$root;
+    }
+  }
+  return(x)
+}
+
+# ------------------------------------------------------------------------------
+logitnmean <- function(mu, sigma) {
+  # Expectation.
+
+  assert((length(mu) == 1 && length(sigma) == 1)
+         || (length(mu) > 1 && length(sigma) > 1))
+
+  e <- rep(NA, length(mu))
+  grid <- seq(0, 1, by=0.0001)
+  for (i in (1:length(mu))) {
+      if (sigma[i] <= 0 || is.na(sigma[i]) || is.na(mu[i])) {
+        e[i] <- NA
+      } else {
+        values <- grid * logitnpdf(grid, mu[i], sigma[i])
+        e[i] <- trapz(grid, values)
+      }
+  }
+  return(e)
+}
+
+# ------------------------------------------------------------------------------
+logitnconv <- function(res, mu1, sigma1, mu2, sigma2) {
+  # Convolution of two densities.
+
+  # Set support
+  x <- seq(0, 2, by=res)
+
+  # Individual logit-normal pdfs
+  f1 <- logitnpdf(x, mu1, sigma1)
+  f2 <- logitnpdf(x, mu2, sigma2)
+
+  # Compute convolution
+  y <- conv(f1, f2)
+
+  # Reduce to [0..2] support
+  y <- y[1:length(x)]
+
+  # Normalize (so that all values sum to 1/res)
+  y <- y / (sum(y) * res)
+  return(y)
+}
