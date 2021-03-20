@@ -1,0 +1,9 @@
+Package: micp
+Title: Bayesian mixed-effects inference on classification performance
+Version: 1.02
+Date: 2013-03-26
+Author: Kay H. Brodersen <khbrodersen@gmail.com>
+Maintainer: Kay H. Brodersen <khbrodersen@gmail.com>
+Description: An R package for variational Bayesian mixed-effects inference on classification performance.
+License: GPL-3
+Packaged: 2013-03-26 11:26:51 UTC; kbroders
