@@ -7,3 +7,6 @@ Maintainer: Kay H. Brodersen <khbrodersen@gmail.com>
 Description: An R package for variational Bayesian mixed-effects inference on classification performance.
 License: GPL-3
 Packaged: 2013-03-26 11:26:51 UTC; kbroders
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
