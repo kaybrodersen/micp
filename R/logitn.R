@@ -5,7 +5,7 @@
 # $Id: logitn.R 19160 2013-03-25 13:18:49Z bkay $
 # ------------------------------------------------------------------------------
 logitnpdf <- function(x, mu, sigma) {
-  # Probability density function.
+  # Probability density function.
 
   assert(length(mu) == 1, "mu must be a scalar");
   assert(length(sigma) == 1, "sigma must be a scalar");
@@ -16,9 +16,8 @@ logitnpdf <- function(x, mu, sigma) {
   return(y)
 }
 
-# ------------------------------------------------------------------------------
 logitncdf <- function(x, mu, sigma) {
-  # Cumulative density function.
+  # Cumulative density function.
 
   if (is.na(mu) | is.na(sigma)) { return(NA) }
   assert(length(mu) == 1, "mu must be a scalar");
@@ -31,9 +30,8 @@ logitncdf <- function(x, mu, sigma) {
   return(p)
 }
 
-# ------------------------------------------------------------------------------
 logitninv <- function(p, mu, sigma) {
-  # Inverse cumulative density function.
+  # Inverse cumulative density function.
 
   if (is.na(mu) | is.na(sigma)) { return(NA) }
   assert(length(p) == 1, "p must be a scalar")
@@ -58,9 +56,8 @@ logitninv <- function(p, mu, sigma) {
   return(x)
 }
 
-# ------------------------------------------------------------------------------
 logitnmean <- function(mu, sigma) {
-  # Expectation.
+  # Expectation.
 
   assert((length(mu) == 1 && length(sigma) == 1)
          || (length(mu) > 1 && length(sigma) > 1))
@@ -78,24 +75,23 @@ logitnmean <- function(mu, sigma) {
   return(e)
 }
 
-# ------------------------------------------------------------------------------
 logitnconv <- function(res, mu1, sigma1, mu2, sigma2) {
-  # Convolution of two densities.
+  # Convolution of two densities.
 
-  # Set support
+  # Set support
   x <- seq(0, 2, by=res)
 
-  # Individual logit-normal pdfs
+  # Individual logit-normal pdfs
   f1 <- logitnpdf(x, mu1, sigma1)
   f2 <- logitnpdf(x, mu2, sigma2)
 
-  # Compute convolution
+  # Compute convolution
   y <- conv(f1, f2)
 
-  # Reduce to [0..2] support
+  # Reduce to [0..2] support
   y <- y[1:length(x)]
 
-  # Normalize (so that all values sum to 1/res)
+  # Normalize (so that all values sum to 1/res)
   y <- y / (sum(y) * res)
   return(y)
 }

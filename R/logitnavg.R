@@ -3,17 +3,16 @@
 #
 # Kay H. Brodersen, ETH Zurich, Switzerland
 # $Id: logitnavg.R 19160 2013-03-25 13:18:49Z bkay $
-# ------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 logitnavgcdf <- function(x, mu1, sigma1, mu2, sigma2) {
-  # Cumulative density function.
+  # Cumulative density function.
 
   return(logitnsumcdf(2*x, mu1, sigma1, mu2, sigma2))
 }
 
-# ------------------------------------------------------------------------------
 logitnavginv <- function(y, mu1, sigma1, mu2, sigma2) {
-  # Inverse cumulative density function.
-  
+  # Inverse cumulative density function.
+
   if (is.na(y)) return(NA)
 
   x <- rep(NA, length(mu1))
@@ -24,9 +23,8 @@ logitnavginv <- function(y, mu1, sigma1, mu2, sigma2) {
   return(x)
 }
 
-# ------------------------------------------------------------------------------
 logitnavgmean <- function(mu1, sigma1, mu2, sigma2) {
-  # Expectation.
+  # Expectation.
 
   if (is.na(mu1) || is.na(sigma1)) return(NA)
   if (is.na(mu2) || is.na(sigma2)) return(NA)

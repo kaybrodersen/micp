@@ -3,17 +3,17 @@
 #
 # Kay H. Brodersen, ETH Zurich, Switzerland
 # $Id: logitnsum.R 19160 2013-03-25 13:18:49Z bkay $
-# ------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 logitnsumcdf <- function(x, mu1, sigma1, mu2, sigma2) {
-  # Cumulative distribution function.
+  # Cumulative distribution function.
 
-  # Compute the PDF first (since we want the entire pdf rather than just one
-  # value from it, using betaconv is computationally more efficient than using
+  # Compute the PDF first (since we want the entire pdf rather than just one
+  # value from it, using betaconv is computationally more efficient than using
   # betasumpdf)
   res <- 0.001
   co <- logitnconv(res, mu1, sigma1, mu2, sigma2)
 
-  # Sum the PDF up to point x
+  # Sum the PDF up to point x
   y <- rep(NA, length(x))
   for (i in (1:length(x))) {
     idx <- round(x[i] / res)

@@ -3,7 +3,7 @@
 #
 # Kay H. Brodersen, ETH Zurich, Switzerland
 # $Id: vbicp.unb.R 19175 2013-03-26 11:18:48Z bkay $
-# ------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 vbicp.unb <- function(ks, ns, verbose = 0) {
   # Variational Bayes algorithm for approximate mixed-effects inference on the
   # classification accuracy using the normal-binomial model.
@@ -31,9 +31,9 @@ vbicp.unb <- function(ks, ns, verbose = 0) {
   #
   # Literature:
   #   K.H. Brodersen, J. Daunizeau, C. Mathys, J.R. Chumbley, J.M. Buhmann, &
-  #   K.E. Stephan (2013). Variational Bayesian mixed-effects inference for
-  #   classification studies. NeuroImage (in press).
-  #   doi:10.1016/j.neuroimage.2013.03.008.
+  #   K.E. Stephan (2013). Variational Bayesian mixed-effects inference for
+  #   classification studies. NeuroImage (in press).
+  #   doi:10.1016/j.neuroimage.2013.03.008.
 
   # Check input
   assert(is.vector(ks), "ks must be a vector")
@@ -72,16 +72,16 @@ vbicp.unb <- function(ks, ns, verbose = 0) {
     # 1st mean-field partition
     q <- update.rho(data, prior, q)
 
-    # 2nd mean-field partition
+    # 2nd mean-field partition
     q <- update.mu(data, prior, q)
 
-    # 3rd mean-field partition
+    # 3rd mean-field partition
     q <- update.lambda(data, prior, q)
 
-    # Free energy (q$F)
+    # Free energy (q$F)
     q <- free.energy(data, prior, q)
 
-    # Convergence?
+    # Convergence?
     if (abs(q$F - q.old$F) < 1e-3) {
       break
     } else if (i == max.iter) {
@@ -91,7 +91,6 @@ vbicp.unb <- function(ks, ns, verbose = 0) {
   return(q)
 }
 
-# ------------------------------------------------------------------------------
 update.rho <- function(data, prior, q) {
   # Updates the 1st mean-field partition
 
@@ -123,7 +122,6 @@ update.rho <- function(data, prior, q) {
   return(q)
 }
 
-# ------------------------------------------------------------------------------
 update.mu <- function(data, prior, q) {
   # Updates the 2nd mean-field partition
 
@@ -135,7 +133,6 @@ update.mu <- function(data, prior, q) {
   return(q)
 }
 
-# ------------------------------------------------------------------------------
 update.lambda <- function(data, prior, q) {
   # Updates the 3rd mean-field partition
 
@@ -148,7 +145,7 @@ update.lambda <- function(data, prior, q) {
 
 # ------------------------------------------------------------------------------
 free.energy <- function(data, prior, q) {
-  # Approximation to the free energy
+  # Approximation to the free energy
   q$F <- 1/2*(log(prior$eta.0) - log(q$eta.mu)) -
          prior$eta.0/2*((q$mu.mu-prior$mu.0)^2 + 1/q$eta.mu) + q$a.lambda -
          prior$a.0*log(prior$b.0) + lgamma(q$a.lambda)-lgamma(prior$a.0) -

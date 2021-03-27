@@ -38,21 +38,21 @@
 #
 # Literature:
 #   K.H. Brodersen, J. Daunizeau, C. Mathys, J.R. Chumbley, J.M. Buhmann, &
-#   K.E. Stephan (2013). Variational Bayesian mixed-effects inference for
-#   classification studies. NeuroImage (in press).
-#   doi:10.1016/j.neuroimage.2013.03.008.
+#   K.E. Stephan (2013). Variational Bayesian mixed-effects inference for
+#   classification studies. NeuroImage (in press).
+#   doi:10.1016/j.neuroimage.2013.03.008.
 #
 #   K.H. Brodersen, C. Mathys, J.R. Chumbley, J. Daunizeau, C.S. Ong, J.M.
 #   Buhmann, & K.E. Stephan (2012). Bayesian mixed-effects inference on
-#   classification performance in hierarchical datsets. Journal of Machine
-#   Learning Research, 13, 3133-3176.
+#   classification performance in hierarchical datsets. Journal of Machine
+#   Learning Research, 13, 3133-3176.
 #
 #   K.H. Brodersen, C.S. Ong, J.M. Buhmann, & K.E. Stephan (2010). The balanced
 #   accuracy and its posterior distribution. ICPR, 3121-3124.
 #
 # Kay H. Brodersen, ETH Zurich, khbrodersen@gmail.com
 # $Id: micp.stats.R 19175 2013-03-26 11:18:48Z bkay $
-# ------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 micp.stats <- function(ks, ns) {
 
   # Check input
@@ -107,7 +107,6 @@ micp.stats <- function(ks, ns) {
   return(stats)
 }
 
-# ------------------------------------------------------------------------------
 check.ks.ns <- function(ks, ns) {
   assert(is.vector(ks) || is.matrix(ks), "ks must be a vector or matrix")
   assert(all(ks <= ns), "ks cannot be bigger than ns")
@@ -117,12 +116,10 @@ check.ks.ns <- function(ks, ns) {
   return(list(ks=ks, ns=ns))
 }
 
-# ------------------------------------------------------------------------------
 summary.micp <- function(stats, ...) {
   print(stats, ...)
 }
 
-# ------------------------------------------------------------------------------
 print.micp <- function(stats, ...) {
   switch(stats$model,
 
