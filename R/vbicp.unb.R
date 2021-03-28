@@ -1,9 +1,7 @@
-# ------------------------------------------------------------------------------
-# Variational Bayesian mixed-effects on classification performance
+# Variational Bayesian mixed-effects on classification performance.
 #
-# Kay H. Brodersen, ETH Zurich, Switzerland
-# $Id: vbicp.unb.R 19175 2013-03-26 11:18:48Z bkay $
-# ------------------------------------------------------------------------------
+# Author: Kay H. Brodersen, ETH Zurich
+
 vbicp.unb <- function(ks, ns, verbose = 0) {
   # Variational Bayes algorithm for approximate mixed-effects inference on the
   # classification accuracy using the normal-binomial model.

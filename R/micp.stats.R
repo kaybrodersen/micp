@@ -50,9 +50,8 @@
 #   K.H. Brodersen, C.S. Ong, J.M. Buhmann, & K.E. Stephan (2010). The balanced
 #   accuracy and its posterior distribution. ICPR, 3121-3124.
 #
-# Kay H. Brodersen, ETH Zurich, khbrodersen@gmail.com
-# $Id: micp.stats.R 19175 2013-03-26 11:18:48Z bkay $
-# ------------------------------------------------------------------------------
+# Author: Kay H. Brodersen, ETH Zurich
+
 micp.stats <- function(ks, ns) {
 
   # Check input

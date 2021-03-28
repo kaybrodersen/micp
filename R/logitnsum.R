@@ -1,9 +1,7 @@
-# ------------------------------------------------------------------------------
 # An R implementation of the convolution (sum) of two logit-normal densities.
 #
-# Kay H. Brodersen, ETH Zurich, Switzerland
-# $Id: logitnsum.R 19160 2013-03-25 13:18:49Z bkay $
-# ------------------------------------------------------------------------------
+# Author: Kay H. Brodersen, ETH Zurich
+
 logitnsumcdf <- function(x, mu1, sigma1, mu2, sigma2) {
   # Cumulative distribution function.
 

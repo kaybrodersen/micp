@@ -1,6 +1,7 @@
-# ------------------------------------------------------------------------------
-# Miscellaneous helper functions.
-# ------------------------------------------------------------------------------
+# Helper functions for the {micp} package.
+#
+# Author: Kay H. Brodersen, ETH Zurich
+
 assert <- function (expr = TRUE, error = "") {
   # Assert
   if (! expr) stop(error, call. = FALSE)

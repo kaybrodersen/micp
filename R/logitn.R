@@ -1,9 +1,7 @@
-# ------------------------------------------------------------------------------
 # An R implementation of the logit-normal density.
 #
-# Kay H. Brodersen, ETH Zurich, Switzerland
-# $Id: logitn.R 19160 2013-03-25 13:18:49Z bkay $
-# ------------------------------------------------------------------------------
+# Author: Kay H. Brodersen, ETH Zurich
+
 logitnpdf <- function(x, mu, sigma) {
   # Probability density function.
 
