@@ -1,5 +1,7 @@
-# Export all names
 exportPattern(".")
+
+export(logitnpdf)
+import(assertthat)
 
 S3method(summary, micp)
 S3method(print, micp)

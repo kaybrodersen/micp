@@ -2,12 +2,23 @@
 #
 # Author: Kay H. Brodersen, ETH Zurich
 
+#' Logit-normal probability density function
+#'
+#' @param x
+#' @param mu
+#' @param sigma
+#'
+#' @return
+#' @export
+#'
+#' @import assertthat
+#'
+#' @examples
+#' logitnpdf(0.5, 1, 2)
 logitnpdf <- function(x, mu, sigma) {
-  # Probability density function.
-
-  assert(length(mu) == 1, "mu must be a scalar");
-  assert(length(sigma) == 1, "sigma must be a scalar");
-  assert(sigma > 0, "sigma must be positive");
+  assert_that(length(mu) == 1, msg = "mu must be a scalar");
+  assert_that(length(sigma) == 1, msg = "sigma must be a scalar");
+  assert_that(sigma > 0, msg = "sigma must be positive");
 
   y <- 1/(sigma*sqrt(2*pi)) * exp(-((logit(x)-mu)^2/(2*sigma^2))) / (x*(1-x));
   y[is.na(y)] <- 0;
