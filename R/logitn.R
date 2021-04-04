@@ -15,11 +15,10 @@
 #'
 #' @examples
 #' logitnpdf(0.5, 1, 2)
+#' logitnpdf(c(0, 0.5), c(0, 1), 2)
 logitnpdf <- function(x, mu, sigma) {
-  assert_that(length(mu) == 1, msg = "mu must be a scalar");
-  assert_that(length(sigma) == 1, msg = "sigma must be a scalar");
-  assert_that(sigma > 0, msg = "sigma must be positive");
-
+  assert_that(is.numeric(x), is.numeric(mu), is.numeric(sigma))
+  assert_that(all(sigma > 0), msg = "sigma must be positive")
   y <- 1/(sigma*sqrt(2*pi)) * exp(-((logit(x)-mu)^2/(2*sigma^2))) / (x*(1-x));
   y[is.na(y)] <- 0;
   return(y)
