@@ -4,11 +4,11 @@
 
 #' Logit-normal probability density function
 #'
-#' @param x
-#' @param mu
-#' @param sigma
+#' @param x Vector of values.
+#' @param mu Location parameter.
+#' @param sigma Scale parameter.
 #'
-#' @return
+#' @return Density of the logit-normal distribution.
 #' @export
 #'
 #' @import assertthat
