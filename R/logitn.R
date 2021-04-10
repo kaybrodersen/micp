@@ -19,8 +19,8 @@
 logitnpdf <- function(x, mu, sigma) {
   assert_that(is.numeric(x), is.numeric(mu), is.numeric(sigma))
   assert_that(all(sigma > 0), msg = "sigma must be positive")
-  y <- 1/(sigma*sqrt(2*pi)) * exp(-((logit(x)-mu)^2/(2*sigma^2))) / (x*(1-x));
-  y[is.na(y)] <- 0;
+  y <- 1/(sigma*sqrt(2*pi)) * exp(-((logit(x)-mu)^2/(2*sigma^2))) / (x*(1-x))
+  y[is.na(y)] <- 0
   return(y)
 }
 
