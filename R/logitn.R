@@ -19,22 +19,32 @@
 logitnpdf <- function(x, mu, sigma) {
   assert_that(is.numeric(x), is.numeric(mu), is.numeric(sigma))
   assert_that(all(sigma > 0), msg = "sigma must be positive")
-  y <- 1/(sigma*sqrt(2*pi)) * exp(-((logit(x)-mu)^2/(2*sigma^2))) / (x*(1-x))
+  y <- 1 / (sigma * sqrt(2 * pi)) *
+    exp(-((logit(x) - mu) ^ 2 / (2 * sigma ^ 2))) / (x * (1 - x))
   y[is.na(y)] <- 0
   return(y)
 }
 
+#' Logit-normal cumulative distribution function
+#'
+#' @param x Vector of values.
+#' @param mu Location parameter.
+#' @param sigma Scale parameter.
+#'
+#' @return Value of the logit-normal cumulative distribution function.
+#' @export
+#'
+#' @import assertthat
+#'
+#' @examples
+#' logitncdf(0.5, 1, 2)
+#' logitncdf(c(0, 0.5), c(0, 1), 2)
 logitncdf <- function(x, mu, sigma) {
-  # Cumulative density function.
-
-  if (is.na(mu) | is.na(sigma)) { return(NA) }
-  assert(length(mu) == 1, "mu must be a scalar");
-  assert(length(sigma) == 1, "sigma must be a scalar");
-  assert(sigma > 0, "sigma must be positive");
-
-  p <- 1/2 * (1 + erf((logit(x) - mu) / (sqrt(2) * sigma)));
-  p[x >= 1] <- 1;
-  p[x <= 0] <- 0;
+  assert_that(is.numeric(x), is.numeric(mu), is.numeric(sigma))
+  assert_that(all(sigma > 0), msg = "sigma must be positive")
+  p <- 1/2 * (1 + erf((logit(x) - mu) / (sqrt(2) * sigma)))
+  p[x <= 0] <- 0
+  p[x >= 1] <- 1
   return(p)
 }
 
