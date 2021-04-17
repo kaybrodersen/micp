@@ -48,28 +48,35 @@ logitncdf <- function(x, mu, sigma) {
   return(p)
 }
 
+#' Logit-normal inverse cumulative distribution function
+#'
+#' @param p Vector of quantiles.
+#' @param mu Location parameter.
+#' @param sigma Scale parameter.
+#'
+#' @return Value of the logit-normal inverse cumulative distribution function.
+#' @export
+#'
+#' @import assertthat
+#'
+#' @examples
+#' logitninv(0.5, 1, 2)
+#' logitninv(c(0, 0.5), c(0, 1), 2)
 logitninv <- function(p, mu, sigma) {
-  # Inverse cumulative density function.
-
-  if (is.na(mu) | is.na(sigma)) { return(NA) }
-  assert(length(p) == 1, "p must be a scalar")
-  assert(length(mu) == 1, "mu must be a scalar");
-  assert(length(sigma) == 1, "sigma must be a scalar");
-  assert(sigma > 0, "sigma must be positive");
-
-  x <- rep(NA, length(mu))
-  if ((p<0) || (p>1)) {
-    x <- rep(NA, length(mu))
+  assert_that(is.scalar(p), is.scalar(mu), is.scalar(sigma),
+              msg = "not yet implemented for vector input")
+  assert_that(is.numeric(p), is.numeric(mu), is.numeric(sigma))
+  assert_that(sigma > 0, msg = "sigma must be positive")
+  if ((p < 0) || (p > 1) || is.na(mu) || is.na(sigma)) {
+    x <- NA_real_
   } else if (p == 0) {
-    x <- rep(0, length(mu))
+    x <- 0
   } else if (p == 1) {
-    x <- rep(1, length(mu))
+    x <- 1
   } else {
-    for (i in (1:length(mu))) {
-      # Strategy: find root of logitncdf(x, mu, sigma) - p
-      f <- function(z) logitncdf(z, mu[i], sigma[i]) - p;
-      x[i] = uniroot(f, c(0, 1))$root;
-    }
+    # Find the root of `logitncdf(x, mu, sigma) - p`.
+    f <- function(z) logitncdf(z, mu, sigma) - p
+    x = uniroot(f, c(0, 1))$root
   }
   return(x)
 }
