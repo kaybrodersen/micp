@@ -48,21 +48,7 @@ logitncdf <- function(x, mu, sigma) {
   return(p)
 }
 
-#' Logit-normal inverse cumulative distribution function
-#'
-#' @param p Vector of quantiles.
-#' @param mu Location parameter.
-#' @param sigma Scale parameter.
-#'
-#' @return Value of the logit-normal inverse cumulative distribution function.
-#' @export
-#'
-#' @import assertthat
-#'
-#' @examples
-#' logitninv(0.5, 1, 2)
-#' logitninv(c(0, 0.5), c(0, 1), 2)
-logitninv <- function(p, mu, sigma) {
+.logitninv <- function(p, mu, sigma) {
   assert_that(is.scalar(p), is.scalar(mu), is.scalar(sigma),
               msg = "not yet implemented for vector input")
   assert_that(is.numeric(p), is.numeric(mu), is.numeric(sigma))
@@ -80,6 +66,22 @@ logitninv <- function(p, mu, sigma) {
   }
   return(x)
 }
+
+#' Logit-normal inverse cumulative distribution function
+#'
+#' @param p Vector of quantiles.
+#' @param mu Location parameter.
+#' @param sigma Scale parameter.
+#'
+#' @return Value of the logit-normal inverse cumulative distribution function.
+#' @export
+#'
+#' @import assertthat
+#'
+#' @examples
+#' logitninv(0.5, 1, 2)
+#' logitninv(c(0, 0.5), c(0, 1), 2)
+logitninv <- Vectorize(.logitninv)
 
 logitnmean <- function(mu, sigma) {
   # Expectation.

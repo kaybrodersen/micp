@@ -55,7 +55,6 @@ test_that("logitninv rejects bad input", {
   expect_error(logitninv(1, "foo", 2), "mu is not a numeric or integer vector")
   expect_error(logitninv(1, 2, "x"), "sigma is not a numeric or integer vector")
   expect_error(logitninv(0.5, 1, 0), "sigma must be positive")
-  expect_error(logitninv(c(0.4, 0.5), 1, 0), "not yet implemented")
 })
 
 test_that("logitninv is the inverse of logitncdf", {
@@ -73,4 +72,15 @@ test_that("logitninv is 0 and 1 at its extremes", {
 test_that("logitninv is NA outside of the [0, 1] interval", {
   expect_equal(logitninv(-0.1, 0, 1), NA_real_)
   expect_equal(logitninv(1.1, 0, 1), NA_real_)
+})
+
+test_that("logitninv works on vector input", {
+  expect_equal(logitninv(c(0.5, 0.7), 0, 1),
+               c(logitninv(0.5, 0, 1), logitninv(0.7, 0, 1)))
+  expect_equal(logitninv(0.5, c(0, 0.6), 1),
+               c(logitninv(0.5, 0, 1), logitninv(0.5, 0.6, 1)))
+  expect_equal(logitninv(0.5, 0, c(1, 2)),
+               c(logitninv(0.5, 0, 1), logitninv(0.5, 0, 2)))
+  expect_equal(logitninv(c(0.5, 0.6), 0, c(1, 2)),
+               c(logitninv(0.5, 0, 1), logitninv(0.6, 0, 2)))
 })
