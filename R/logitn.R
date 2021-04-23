@@ -49,9 +49,9 @@ logitncdf <- function(x, mu, sigma) {
 }
 
 .logitninv <- function(p, mu, sigma) {
-  assert_that(is.scalar(p), is.scalar(mu), is.scalar(sigma),
-              msg = "not yet implemented for vector input")
-  assert_that(is.numeric(p), is.numeric(mu), is.numeric(sigma))
+  assert_that(is.scalar(p), is.numeric(p))
+  assert_that(is.scalar(mu), is.numeric(mu))
+  assert_that(is.scalar(sigma), is.numeric(sigma))
   assert_that(sigma > 0, msg = "sigma must be positive")
   if ((p < 0) || (p > 1) || is.na(mu) || is.na(sigma)) {
     x <- NA_real_
@@ -83,21 +83,28 @@ logitncdf <- function(x, mu, sigma) {
 #' logitninv(c(0, 0.5), c(0, 1), 2)
 logitninv <- Vectorize(.logitninv)
 
+#' Expectation of the logit-normal distribution
+#'
+#' @param mu Location parameter.
+#' @param sigma Scale parameter.
+#'
+#' @return Expectation.
+#' @export
+#'
+#' @import assertthat
+#'
+#' @examples
+#' logitnmean(0, 0.6)  # 0.5
 logitnmean <- function(mu, sigma) {
-  # Expectation.
-
-  assert((length(mu) == 1 && length(sigma) == 1)
-         || (length(mu) > 1 && length(sigma) > 1))
-
-  e <- rep(NA, length(mu))
-  grid <- seq(0, 1, by=0.0001)
-  for (i in (1:length(mu))) {
-      if (sigma[i] <= 0 || is.na(sigma[i]) || is.na(mu[i])) {
-        e[i] <- NA
-      } else {
-        values <- grid * logitnpdf(grid, mu[i], sigma[i])
-        e[i] <- trapz(grid, values)
-      }
+  assert_that(is.scalar(mu), is.numeric(mu))
+  assert_that(is.scalar(sigma), is.numeric(sigma))
+  if (is.na(mu) || is.na(sigma)) {
+    e <- NA_real_
+  } else {
+    assert_that(sigma > 0, msg = "sigma must be positive")
+    grid <- seq(0, 1, by = 0.0001)
+    values <- grid * logitnpdf(grid, mu, sigma)
+    e <- trapz(grid, values)
   }
   return(e)
 }

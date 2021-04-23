@@ -84,3 +84,29 @@ test_that("logitninv works on vector input", {
   expect_equal(logitninv(c(0.5, 0.6), 0, c(1, 2)),
                c(logitninv(0.5, 0, 1), logitninv(0.6, 0, 2)))
 })
+
+test_that("logitnmean rejects bad input", {
+  expect_error(logitnmean("foo", 0.8), "mu is not a numeric or integer vector")
+  expect_error(logitnmean(0.5, "x"), "sigma is not a numeric or integer vector")
+  expect_error(logitnmean(0.5, 0), "sigma must be positive")
+})
+
+test_that("logicnmean returns NA for NA parameters", {
+  expect_equal(logitnmean(NA_real_, 0.6), NA_real_)
+  expect_equal(logitnmean(0.2, NA_real_), NA_real_)
+})
+
+test_that("logitnmean is 0.5 for mu = 0", {
+  expect_equal(logitnmean(0, 0.6), 0.5)
+  expect_equal(logitnmean(0, 0.8), 0.5)
+})
+
+test_that("logitnmean matches the empirical expectation", {
+  # Generate logit-normal variates (by drawing from a normal distribution and
+  # applying the sigmoid transform). Then test that the expectation returned by
+  # `logitnmean()` matches the sample mean.
+  set.seed(1)
+  x <- rnorm(1e5, 0.2, 0.6)
+  y <- 1 / (1 + exp(-x))
+  expect_equal(logitnmean(0.2, 0.6), mean(y), tolerance = 1e-3)
+})
