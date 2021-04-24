@@ -110,3 +110,10 @@ test_that("logitnmean matches the empirical expectation", {
   y <- 1 / (1 + exp(-x))
   expect_equal(logitnmean(0.2, 0.6), mean(y), tolerance = 1e-3)
 })
+
+test_that("logitnmean works on vector input", {
+  expect_equal(logitnmean(c(0, 0.2), 0.6),
+               c(logitnmean(0, 0.6), logitnmean(0.2, 0.6)))
+  expect_equal(logitnmean(0, c(0.6, 0.8)),
+               c(logitnmean(0, 0.6), logitnmean(0, 0.8)))
+})

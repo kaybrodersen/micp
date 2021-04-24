@@ -83,19 +83,7 @@ logitncdf <- function(x, mu, sigma) {
 #' logitninv(c(0, 0.5), c(0, 1), 2)
 logitninv <- Vectorize(.logitninv)
 
-#' Expectation of the logit-normal distribution
-#'
-#' @param mu Location parameter.
-#' @param sigma Scale parameter.
-#'
-#' @return Expectation.
-#' @export
-#'
-#' @import assertthat
-#'
-#' @examples
-#' logitnmean(0, 0.6)  # 0.5
-logitnmean <- function(mu, sigma) {
+.logitnmean <- function(mu, sigma) {
   assert_that(is.scalar(mu), is.numeric(mu))
   assert_that(is.scalar(sigma), is.numeric(sigma))
   if (is.na(mu) || is.na(sigma)) {
@@ -108,6 +96,20 @@ logitnmean <- function(mu, sigma) {
   }
   return(e)
 }
+
+#' Expectation of the logit-normal distribution
+#'
+#' @param mu Location parameter.
+#' @param sigma Scale parameter.
+#'
+#' @return Expectation.
+#' @export
+#'
+#' @import assertthat
+#'
+#' @examples
+#' logitnmean(0, 0.6)  # 0.5
+logitnmean <- Vectorize(.logitnmean)
 
 logitnconv <- function(res, mu1, sigma1, mu2, sigma2) {
   # Convolution of two densities.
