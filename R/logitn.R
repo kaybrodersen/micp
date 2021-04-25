@@ -111,23 +111,42 @@ logitninv <- Vectorize(.logitninv)
 #' logitnmean(0, 0.6)  # 0.5
 logitnmean <- Vectorize(.logitnmean)
 
+#' Convolution of two logit-normal distributions.
+#'
+#' @param res Desired resolution, expressed as distribution support per data
+#' point. Since the support is [0, 2], a resolution of 0.1 returns 21 points.
+#' @param mu1 Location parameter of the first distribution.
+#' @param sigma1 Scale parameter of the first distribution.
+#' @param mu2 Location parameter of the second distribution.
+#' @param sigma2 Scale parameter of the second distribution.
+#'
+#' @return A vector of values containing the density of the convolution of two
+#' logit-normal distributions, evaluated on a grid of values between 0 and 2 at
+#' the specified resolution.
+#' @export
+#'
+#' @import assertthat
+#'
+#' @examples
 logitnconv <- function(res, mu1, sigma1, mu2, sigma2) {
-  # Convolution of two densities.
+  assert_that(is.scalar(res), is.numeric(res), res > 0, res < 1)
+  assert_that(is.scalar(mu1), is.scalar(sigma1))
+  assert_that(is.scalar(mu2), is.scalar(sigma2))
 
-  # Set support
-  x <- seq(0, 2, by=res)
+  # Set support.
+  x <- seq(0, 2, res)
 
-  # Individual logit-normal pdfs
+  # Individual logit-normal PDFs.
   f1 <- logitnpdf(x, mu1, sigma1)
   f2 <- logitnpdf(x, mu2, sigma2)
 
-  # Compute convolution
+  # Compute convolution.
   y <- conv(f1, f2)
 
-  # Reduce to [0..2] support
+  # Reduce to [0, 2] support.
   y <- y[1:length(x)]
 
-  # Normalize (so that all values sum to 1/res)
+  # Normalize (so that values sum to 1/res).
   y <- y / (sum(y) * res)
   return(y)
 }
