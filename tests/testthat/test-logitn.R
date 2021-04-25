@@ -117,3 +117,27 @@ test_that("logitnmean works on vector input", {
   expect_equal(logitnmean(0, c(0.6, 0.8)),
                c(logitnmean(0, 0.6), logitnmean(0, 0.8)))
 })
+
+test_that("logitnconv rejects bad input", {
+  expect_error(logitnconv("foo", 0, 0.6, 0.2, 0.8))
+  expect_error(logitnconv(c(1, 2), 0, 0.6, 0.2, 0.8))
+  expect_error(logitnconv(-1, 0, 0.6, 0.2, 0.8))
+  expect_error(logitnconv(1, 0, 0.6, 0.2, 0.8))
+  expect_error(logitnconv(0.01, "foo", 0.6, 0.2, 0.8))
+  expect_error(logitnconv(0.01, c(0, 0), c(0.6, 0.8), c(0, 0), c(0.7, 0.8)))
+})
+
+test_that("logitnconv returns the expected number of values", {
+  # For `res = 0.01`, expecting floor(2 / 0.01) + 1 = 201 data points.
+  expect_equal(length(logitnconv(0.01, 0, 0.6, 0.2, 0.8)), 201)
+  expect_equal(length(logitnconv(0.1, 0, 0.6, 0.2, 0.8)), 21)
+  expect_equal(length(logitnconv(0.5, 0, 0.6, 0.2, 0.8)), 5)
+  expect_equal(length(logitnconv(0.9, 0, 0.6, 0.2, 0.8)), 3)
+})
+
+test_that("logitnconv returns values that sum to 1/res", {
+  expect_equal(sum(logitnconv(0.01, 0, 0.6, 0.2, 0.8)), 100)
+  expect_equal(sum(logitnconv(0.1, 0, 0.6, 0.2, 0.8)), 10)
+  expect_equal(sum(logitnconv(0.5, 0, 0.6, 0.2, 0.8)), 2)
+  expect_equal(sum(logitnconv(0.9, 0, 0.6, 0.2, 0.8)), 1/0.9)
+})
