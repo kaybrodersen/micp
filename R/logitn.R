@@ -111,7 +111,7 @@ logitninv <- Vectorize(.logitninv)
 #' logitnmean(0, 0.6)  # 0.5
 logitnmean <- Vectorize(.logitnmean)
 
-#' Convolution of two logit-normal distributions.
+#' Convolution of two logit-normal distributions
 #'
 #' @param res Desired resolution, expressed as distribution support per data
 #' point. Since the support is [0, 2], a resolution of 0.1 returns 21 points.

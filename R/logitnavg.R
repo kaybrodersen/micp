@@ -2,17 +2,38 @@
 #
 # Author: Kay H. Brodersen, ETH Zurich
 
+#' Cumulative distribution function of the average of two logit-normal variables
+#'
+#' @param x Vector of values.
+#' @param mu1 Location parameter of the first distribution.
+#' @param sigma1 Scale parameter of the first distribution.
+#' @param mu2 Location parameter of the second distribution.
+#' @param sigma2 Scale parameter of the second distribution.
+#'
+#' @return Value of the cumulative distribution function.
+#' @export
+#'
+#' @examples
 logitnavgcdf <- function(x, mu1, sigma1, mu2, sigma2) {
-  # Cumulative density function.
-
-  return(logitnsumcdf(2*x, mu1, sigma1, mu2, sigma2))
+  return(logitnsumcdf(2 * x, mu1, sigma1, mu2, sigma2))
 }
 
+#' Inverse cumulative distribution function of the average of two logit-normal
+#' variables
+#'
+#' @param y Vector of quantiles.
+#' @param mu1 Location parameter of the first distribution.
+#' @param sigma1 Scale parameter of the first distribution.
+#' @param mu2 Location parameter of the second distribution.
+#' @param sigma2 Scale parameter of the second distribution.
+#'
+#' @return Value of the inverse cumulative distribution function of the average
+#' of two logit-normal variables.
+#' @export
+#'
+#' @examples
 logitnavginv <- function(y, mu1, sigma1, mu2, sigma2) {
-  # Inverse cumulative density function.
-
   if (is.na(y)) return(NA)
-
   x <- rep(NA, length(mu1))
   for (i in (1:length(mu1))) {
     f <- function(z) logitnavgcdf(z, mu1[i], sigma1[i], mu2[i], sigma2[i]) - y
@@ -21,9 +42,18 @@ logitnavginv <- function(y, mu1, sigma1, mu2, sigma2) {
   return(x)
 }
 
+#' Expectation of the average of two logit-normal variables
+#'
+#' @param mu1 Location parameter of the first distribution.
+#' @param sigma1 Scale parameter of the first distribution.
+#' @param mu2 Location parameter of the second distribution.
+#' @param sigma2 Scale parameter of the second distribution.
+#'
+#' @return
+#' @export
+#'
+#' @examples
 logitnavgmean <- function(mu1, sigma1, mu2, sigma2) {
-  # Expectation.
-
   if (is.na(mu1) || is.na(sigma1)) return(NA)
   if (is.na(mu2) || is.na(sigma2)) return(NA)
   if ((sigma1 < 0) || (sigma2 < 0)) return(NA)
