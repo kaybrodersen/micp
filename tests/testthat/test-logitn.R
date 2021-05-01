@@ -141,3 +141,19 @@ test_that("logitnconv returns values that sum to 1/res", {
   expect_equal(sum(logitnconv(0.5, 0, 0.6, 0.2, 0.8)), 2)
   expect_equal(sum(logitnconv(0.9, 0, 0.6, 0.2, 0.8)), 1/0.9)
 })
+
+test_that("logitnconv produces expected mode", {
+  mu1 <- 0
+  mu2 <- 0
+  sigma1 <- 1
+  sigma2 <- 1
+  res <- 0.1
+  x <- seq(0, 2, res)
+  f1 <- logitnpdf(x, mu1, sigma1)
+  f2 <- logitnpdf(x, mu2, sigma2)
+  y <- logitnconv(res, mu1, sigma1, mu2, sigma2)
+  # The mode of each individual distribution is 0.5.
+  expect_equal(x[which.max(f1)], 0.5)
+  # The mode of the sum is 1.
+  expect_equal(x[which.max(y)], 1)
+})
