@@ -15,6 +15,7 @@
 #'
 #' @examples
 logitnavgcdf <- function(x, mu1, sigma1, mu2, sigma2) {
+  assert_that(is.vector(x), is.numeric(x))
   return(logitnsumcdf(2 * x, mu1, sigma1, mu2, sigma2))
 }
 
