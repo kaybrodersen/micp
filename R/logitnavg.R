@@ -43,6 +43,8 @@ logitnavginv <- function(y, mu1, sigma1, mu2, sigma2) {
   return(x)
 }
 
+# TODO: Clean up and vectorize logitnavginv().
+
 #' Expectation of the average of two logit-normal variables
 #'
 #' @param mu1 Location parameter of the first distribution.
