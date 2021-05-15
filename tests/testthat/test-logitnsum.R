@@ -1,3 +1,5 @@
+# TODO: Add unit tests testing that NA returns NA.
+
 test_that("logitnsumcdf rejects bad input", {
   expect_error(logitnsumcdf("foo", 0, 1, 0, 1),
                "not a numeric or integer vector")

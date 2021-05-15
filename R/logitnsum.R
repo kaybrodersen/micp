@@ -25,9 +25,11 @@ logitnsumcdf <- function(x, mu1, sigma1, mu2, sigma2) {
 
   # Sum the PDF up to point `x`.
   y <- rep(NA_real_, length(x))
-  for (i in seq(length(x))) {
+  for (i in seq(length(y))) {
     idx <- round(x[i] / res)
-    if (idx < 1) {
+    if (is.na(idx)) {
+      y[i] <- NA_real_
+    } else if (idx < 1) {
       y[i] <- 0
     } else if (idx > length(co)) {
       y[i] <- 1
