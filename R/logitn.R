@@ -17,11 +17,11 @@
 #' logitnpdf(0.5, 1, 2)
 #' logitnpdf(c(0, 0.5), c(0, 1), 2)
 logitnpdf <- function(x, mu, sigma) {
-  assert_that(is.numeric(x), is.numeric(mu), is.numeric(sigma))
-  assert_that(all(sigma > 0), msg = "sigma must be positive")
   y <- 1 / (sigma * sqrt(2 * pi)) *
     exp(-((logit(x) - mu) ^ 2 / (2 * sigma ^ 2))) / (x * (1 - x))
   y[is.na(y)] <- 0
+  y[is.na(x + mu + sigma)] <- NA_real_
+  y[sigma < 0] <- NaN
   return(y)
 }
 
@@ -40,19 +40,18 @@ logitnpdf <- function(x, mu, sigma) {
 #' logitncdf(0.5, 1, 2)
 #' logitncdf(c(0, 0.5), c(0, 1), 2)
 logitncdf <- function(x, mu, sigma) {
-  assert_that(is.numeric(x), is.numeric(mu), is.numeric(sigma))
-  assert_that(all(sigma > 0), msg = "sigma must be positive")
   p <- 1/2 * (1 + erf((logit(x) - mu) / (sqrt(2) * sigma)))
   p[x <= 0] <- 0
   p[x >= 1] <- 1
+  p[sigma < 0] <- NaN
   return(p)
 }
 
 .logitninv <- function(p, mu, sigma) {
-  assert_that(is.scalar(p), is.numeric(p))
-  assert_that(is.scalar(mu), is.numeric(mu))
-  assert_that(is.scalar(sigma), is.numeric(sigma))
-  assert_that(sigma > 0, msg = "sigma must be positive")
+  assert_that(is.scalar(p), is.numeric(p) || is.na(p))
+  assert_that(is.scalar(mu), is.numeric(mu) || is.na(mu))
+  assert_that(is.scalar(sigma), is.numeric(sigma) || is.na(sigma))
+  assert_that(is.na(sigma) || sigma > 0, msg = "sigma must be positive")
   if ((p < 0) || (p > 1) || is.na(mu) || is.na(sigma)) {
     x <- NA_real_
   } else if (p == 0) {
@@ -84,12 +83,11 @@ logitncdf <- function(x, mu, sigma) {
 logitninv <- Vectorize(.logitninv)
 
 .logitnmean <- function(mu, sigma) {
-  assert_that(is.scalar(mu), is.numeric(mu))
-  assert_that(is.scalar(sigma), is.numeric(sigma))
+  assert_that(is.scalar(mu), is.numeric(mu) || is.na(mu))
+  assert_that(is.scalar(sigma), is.numeric(sigma) || is.na(sigma))
   if (is.na(mu) || is.na(sigma)) {
     e <- NA_real_
   } else {
-    assert_that(sigma > 0, msg = "sigma must be positive")
     grid <- seq(0, 1, by = 0.0001)
     values <- grid * logitnpdf(grid, mu, sigma)
     e <- trapz(grid, values)
@@ -129,7 +127,7 @@ logitnmean <- Vectorize(.logitnmean)
 #'
 #' @examples
 logitnconv <- function(res, mu1, sigma1, mu2, sigma2) {
-  assert_that(is.scalar(res), is.numeric(res), res > 0, res < 1)
+  assert_that(is.scalar(res), is.numeric(res), !is.na(res), res > 0, res < 1)
   assert_that(is.scalar(mu1), is.scalar(sigma1))
   assert_that(is.scalar(mu2), is.scalar(sigma2))
 

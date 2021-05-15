@@ -1,14 +1,4 @@
-# TODO: Add unit tests testing that NA returns NA.
-
-test_that("logitnpdf rejects bad input", {
-  expect_error(logitnpdf("foo", 1, 2), "x is not a numeric or integer vector")
-  expect_error(logitnpdf(1, "foo", 2), "mu is not a numeric or integer vector")
-  expect_error(logitnpdf(1, 2, "x"), "sigma is not a numeric or integer vector")
-  expect_error(logitnpdf(c(-1, 0, 1), 1, 0), "sigma must be positive")
-  expect_error(logitnpdf(c(-1, 0, 1), 1, c(-1, 0)), "sigma must be positive")
-})
-
-test_that("logitnpdf works on healthy input", {
+test_that("logitnpdf returns expected result", {
   # p_logitnormal(x = 0.5 | mu = 2, sigma = 1.5)
   # = 1/(1.5*sqrt(2*pi)) * exp(-((logit(0.5)-2)^2)/(2*1.5^2)) / (0.5 * (1-0.5))
   # = 0.4373602.
@@ -20,15 +10,19 @@ test_that("logitnpdf is zero outside of the (0, 1) interval", {
   expect_equal(logitnpdf(c(-0.5, 0, 1, 1.5), 0, 1), c(0, 0, 0, 0))
 })
 
-test_that("logitncdf rejects bad input", {
-  expect_error(logitncdf("foo", 1, 2), "x is not a numeric or integer vector")
-  expect_error(logitncdf(1, "foo", 2), "mu is not a numeric or integer vector")
-  expect_error(logitncdf(1, 2, "x"), "sigma is not a numeric or integer vector")
-  expect_error(logitncdf(c(-1, 0, 1), 1, 0), "sigma must be positive")
-  expect_error(logitncdf(c(-1, 0, 1), 1, c(-1, 0)), "sigma must be positive")
+test_that("logitnpdf returns NA for NA input", {
+  expect_equal(logitnpdf(NA, 1, 2), NA_real_)
+  expect_equal(logitnpdf(1, NA, 2), NA_real_)
+  expect_equal(logitnpdf(1.2, 1, NA), NA_real_)
+  expect_equal(logitnpdf(c(NA, 0), 1, 2), c(NA_real_, 0))
 })
 
-test_that("logitncdf works on healthy input", {
+test_that("logitnpdf returns NaN for negative sigma", {
+  expect_equal(logitnpdf(1, 2, -1), NaN)
+  expect_equal(logitnpdf(1, 2, c(1, -1)), c(0, NaN))
+})
+
+test_that("logitncdf returns expected result", {
   # F_logitnormal(x = 0.5 | mu = 2, sigma = 1.5)
   # = 1/2 * (1 + erf((logit(0.5) - 2) / sqrt(2*1.5^2))) = 0.09121122.
   expect_equal(round(logitncdf(0.5, 2, 1.5), 7), 0.0912112)
@@ -50,6 +44,11 @@ test_that("logitncdf is one right of x = 1 irrespective of the parameters", {
   expect_equal(logitncdf(c(1, 1.5), 0, 1), c(1, 1))
   expect_equal(logitncdf(c(1, 1.5), 1, 1.5), c(1, 1))
   expect_equal(logitncdf(c(1, 1.5), -1.5, 1.5), c(1, 1))
+})
+
+test_that("logitncdf returns NaN for negative sigma", {
+  expect_equal(logitncdf(0.5, 1, -1), NaN)
+  expect_equal(logitncdf(1, 1, c(1, -1)), c(1, NaN))
 })
 
 test_that("logitninv rejects bad input", {
@@ -90,12 +89,15 @@ test_that("logitninv works on vector input", {
 test_that("logitnmean rejects bad input", {
   expect_error(logitnmean("foo", 0.8), "mu is not a numeric or integer vector")
   expect_error(logitnmean(0.5, "x"), "sigma is not a numeric or integer vector")
-  expect_error(logitnmean(0.5, 0), "sigma must be positive")
 })
 
-test_that("logicnmean returns NA for NA parameters", {
+test_that("logitnmean returns NA for NA parameters", {
   expect_equal(logitnmean(NA_real_, 0.6), NA_real_)
   expect_equal(logitnmean(0.2, NA_real_), NA_real_)
+})
+
+test_that("logitnmean returns NaN for negative sigma", {
+  expect_equal(logitnmean(1, -1), NaN)
 })
 
 test_that("logitnmean is 0.5 for mu = 0", {
@@ -122,6 +124,7 @@ test_that("logitnmean works on vector input", {
 
 test_that("logitnconv rejects bad input", {
   expect_error(logitnconv("foo", 0, 0.6, 0.2, 0.8))
+  expect_error(logitnconv(NA_real_, 0, 0.6, 0.2, 0.8))
   expect_error(logitnconv(c(1, 2), 0, 0.6, 0.2, 0.8))
   expect_error(logitnconv(-1, 0, 0.6, 0.2, 0.8))
   expect_error(logitnconv(1, 0, 0.6, 0.2, 0.8))
