@@ -1,3 +1,5 @@
+# TODO: Add unit tests testing that NA returns NA.
+
 test_that("logitnpdf rejects bad input", {
   expect_error(logitnpdf("foo", 1, 2), "x is not a numeric or integer vector")
   expect_error(logitnpdf(1, "foo", 2), "mu is not a numeric or integer vector")

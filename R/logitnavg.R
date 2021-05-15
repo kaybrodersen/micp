@@ -15,8 +15,21 @@
 #'
 #' @examples
 logitnavgcdf <- function(x, mu1, sigma1, mu2, sigma2) {
-  assert_that(is.vector(x), is.numeric(x))
+  assert_that(is.vector(x))
+  assert_that(all(vapply(x, function(x) is.numeric(x) | is.na(x), TRUE)),
+              msg = "x is not a numeric or integer vector")
   return(logitnsumcdf(2 * x, mu1, sigma1, mu2, sigma2))
+}
+
+.logitnavginv <- function(y, mu1, sigma1, mu2, sigma2) {
+  assert_that(is.scalar(y), is.numeric(y) || is.na(y))
+  if (isTRUE(is.na(y))) {
+    x <- NA_real_
+  } else {
+    f <- function(z) logitnavgcdf(z, mu1, sigma1, mu2, sigma2) - y
+    x <- uniroot(f, c(0, 1))$root
+  }
+  return(x)
 }
 
 #' Inverse cumulative distribution function of the average of two logit-normal
@@ -33,17 +46,9 @@ logitnavgcdf <- function(x, mu1, sigma1, mu2, sigma2) {
 #' @export
 #'
 #' @examples
-logitnavginv <- function(y, mu1, sigma1, mu2, sigma2) {
-  if (is.na(y)) return(NA)
-  x <- rep(NA, length(mu1))
-  for (i in (1:length(mu1))) {
-    f <- function(z) logitnavgcdf(z, mu1[i], sigma1[i], mu2[i], sigma2[i]) - y
-    x[i] <- uniroot(f, c(0, 1))$root
-  }
-  return(x)
-}
+logitnavginv <- Vectorize(.logitnavginv)
 
-# TODO: Clean up and vectorize logitnavginv().
+# TODO: Continue here.
 
 #' Expectation of the average of two logit-normal variables
 #'
