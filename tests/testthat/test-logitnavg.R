@@ -42,3 +42,17 @@ test_that("logitnavginv works on vector input", {
                             c(-1.7, -1.8), c(1.1, 1.2)), c(0.6, 0.7),
                tolerance = 1e-4)
 })
+
+test_that("logitnavgmean result is approximately the sample mean", {
+  set.seed(1)
+  x1 <- safesigm(rnorm(10000, 2, 1))
+  x2 <- safesigm(rnorm(10000, 3, 2))
+  sample_mean <- mean((x1 + x2) / 2)
+  theoretical_mean <- logitnavgmean(2, 1, 3, 2)
+  expect_equal(theoretical_mean, sample_mean, tolerance = 1e-3)
+})
+
+test_that("logitnavgmean works on vector input", {
+  expect_equal(logitnavgmean(c(1, 1.1), c(2, 2.2), c(3, 3.3), c(4, 4.4)),
+               c(logitnavgmean(1, 2, 3, 4), logitnavgmean(1.1, 2.2, 3.3, 4.4)))
+})
