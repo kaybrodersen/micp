@@ -48,7 +48,13 @@ logitnavgcdf <- function(x, mu1, sigma1, mu2, sigma2) {
 #' @examples
 logitnavginv <- Vectorize(.logitnavginv)
 
-# TODO: Continue here.
+.logitnavgmean <- function(mu1, sigma1, mu2, sigma2) {
+  res <- 0.001
+  x <- seq(0, 2, res)
+  conv <- logitnconv(res, mu1, sigma1, mu2, sigma2)
+  mu <- sum(x * conv / 2) * res
+  return(mu)
+}
 
 #' Expectation of the average of two logit-normal variables
 #'
@@ -61,24 +67,4 @@ logitnavginv <- Vectorize(.logitnavginv)
 #' @export
 #'
 #' @examples
-logitnavgmean <- function(mu1, sigma1, mu2, sigma2) {
-  if (is.na(mu1) || is.na(sigma1)) return(NA)
-  if (is.na(mu2) || is.na(sigma2)) return(NA)
-  if ((sigma1 < 0) || (sigma2 < 0)) return(NA)
-
-  assert(all(sigma1 > 0) && all(sigma2 > 0))
-  assert(((length(mu1) == 1) && (length(sigma1) == 1))
-    || (length(mu1) > 0 && length(sigma1) > 0 && (dim(mu1) == dim(sigma1))))
-  assert(((length(mu2) == 1) && (length(sigma2) == 1))
-    || (length(mu2) > 0 && length(sigma2) > 0 && (dim(mu2) == dim(sigma2))))
-
-  res <- 0.001;
-  x <- seq(0, 2, by=res);
-
-  mu.phi <- rep(NA, length(mu1));
-  for (i in (1:length(mu1))) {
-    c <- logitnconv(res, mu1[i], sigma1[i], mu2[i], sigma2[i]);
-    mu.phi[i] <- sum(x*c/2) * res;
-  }
-  return(mu.phi)
-}
+logitnavgmean <- Vectorize(.logitnavgmean)
