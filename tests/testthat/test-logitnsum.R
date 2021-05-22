@@ -1,10 +1,13 @@
-# TODO: Add unit tests testing that NA returns NA.
-
 test_that("logitnsumcdf rejects bad input", {
   expect_error(logitnsumcdf("foo", 0, 1, 0, 1),
                "not a numeric or integer vector")
   expect_error(logitnsumcdf(matrix(c(0, 0.1, 0.2, 0.3), nrow = 2), 0, 1, 0, 1),
                "not an atomic vector")
+})
+
+test_that("logitnsumcdf returns NA for NA input", {
+  expect_equal(logitnsumcdf(NA, 0, 1, 0, 1), NA_real_)
+  expect_equal(logitnsumcdf(NA_real_, 0, 1, 0, 1), NA_real_)
 })
 
 test_that("logitnsumcdf returns expected result", {

@@ -16,7 +16,9 @@
 #'
 #' @examples
 logitnsumcdf <- function(x, mu1, sigma1, mu2, sigma2) {
-  assert_that(is.vector(x), is.numeric(x))
+  assert_that(is.vector(x))
+  assert_that(all(vapply(x, function(x) is.numeric(x) | is.na(x), TRUE)),
+              msg = "x is not a numeric or integer vector")
 
   # Compute the PDF once, then reuse it for each value in `x`. This is faster
   # than recomputing the PDF each time.
