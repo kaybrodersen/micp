@@ -2,88 +2,98 @@
 #
 # Author: Kay H. Brodersen, ETH Zurich
 
+#' Variational Bayesian approximate mixed-effects inference on classification
+#' accuracy using the normal-binomial model
+#'
+#' @param ks Vector of successes in each population member.
+#' @param ns Vector of attempts in each population member.
+#' @param verbose Level of output verbosity: 0 or 1.
+#'
+#' @return A list of posterior moments:
+#'   mu_mu:    mean of the posterior population mean effect
+#'   eta_mu:   precision of the posterior population mean effect
+#'   a_lamba:  shape parameter of the posterior precision population effect
+#'   b_lambda: scale parameter of the posterior precision population effect
+#'   mu_rho:   vector of means of the posterior subject-specific effects
+#'   eta_rho:  vector of precisions of posterior subject-specific effects
+#'
+#' @details The return 'effects' represent accuracies in logit space, which
+#' has infinite support. In order to obtain, e.g., a posterior-mean estimate
+#' of the population accuracy in the conventional [0..1] space, use:
+#' `logitnmean(q$mu.mu, 1/sqrt(q$eta.mu))`
+#'
+#' @export
+#'
+#' @examples
+#' q <- vbicp.unb(c(6, 8, 5), c(10, 10, 10), verbose = 0)
+#'
+#' @references
+#'   K.H. Brodersen, J. Daunizeau, C. Mathys, J.R. Chumbley, J.M. Buhmann, &
+#'   K.E. Stephan (2013). Variational Bayesian mixed-effects inference for
+#'   classification studies. NeuroImage (2013).
+#'   doi:10.1016/j.neuroimage.2013.03.008.
+#'   https://kaybrodersen.github.io/publications/Brodersen_2013_NeuroImage.pdf
 vbicp.unb <- function(ks, ns, verbose = 0) {
-  # Variational Bayes algorithm for approximate mixed-effects inference on the
-  # classification accuracy using the normal-binomial model.
-  #
-  # Usage:
-  #   q <- vbicp.unb(ks, ns, verbose = 0)
-  #
-  # Arguments:
-  #   ks: vector of correct trials
-  #   ns: vector of trial numbers
-  #   verbose: level of verbosity (0 or 1)
-  #
-  # Returns a list of posterior moments:
-  #   mu_mu:    mean of the posterior population mean effect
-  #   eta_mu:   precision of the posterior population mean effect
-  #   a_lamba:  shape parameter of the posterior precision population effect
-  #   b_lambda: scale parameter of the posterior precision population effect
-  #   mu_rho:   vector of means of the posterior subject-specific effects
-  #   eta_rho:  vector of precisions of posterior subject-specific effects
-  #
-  # Note that all above 'effects' represent accuracies in logit space which
-  # has infinite support. In order to obtain, e.g., a posterior-mean estimate
-  # of the population accuracy in the conventional [0..1] space, use:
-  # logitnmean(q$mu.mu, 1/sqrt(q$eta.mu))
-  #
-  # Literature:
-  #   K.H. Brodersen, J. Daunizeau, C. Mathys, J.R. Chumbley, J.M. Buhmann, &
-  #   K.E. Stephan (2013). Variational Bayesian mixed-effects inference for
-  #   classification studies. NeuroImage (in press).
-  #   doi:10.1016/j.neuroimage.2013.03.008.
+  # Check inputs.
+  assert_that(is.vector(ks), is.numeric(ks))
+  assert_that(is.vector(ns), is.numeric(ns))
+  assert_that(length(ks) == length(ns))
+  assert_that(is.scalar(verbose), verbose %in% c(0, 1))
 
-  # Check input
-  assert(is.vector(ks), "ks must be a vector")
-  assert(is.vector(ns), "ns must be a vector")
-  assert((verbose == 0) || (verbose == 1), "invalid verbosity level")
+  # Set algorithm constants.
+  kMaxIter <- 50
+  kConvergence <- 1e-3
 
-  # Set data
-  data        <- list()
-  data$ks     <- ks
-  data$ns     <- ns
-  data$m      <- length(data$ks)
+  # Set data.
+  data <- list(
+    ks = ks,
+    ns = ns,
+    m = length(ks)
+  )
 
-  # Specify prior
-  # Prior as of 21/02/2012
-  prior       <- list()
-  prior$mu.0  <- 0
-  prior$eta.0 <- 1
-  prior$a.0   <- 1
-  prior$b.0   <- 1
+  # Specify prior.
+  # Prior as of 2021-02-21.
+  prior <- list(
+    mu.0 = 0,
+    eta.0 = 1,
+    a.0 = 1,
+    b.0 = 1
+  )
 
-  # Initialize posterior
-  q <- list()
-  q$mu.mu     <- prior$mu.0
-  q$eta.mu    <- prior$eta.0
-  q$a.lambda  <- prior$a.0
-  q$b.lambda  <- prior$b.0
-  q$mu.rho    <- rep(0,   data$m)  # hard-coded prior on lower level
-  q$eta.rho   <- rep(0.1, data$m)  # hard-coded prior on lower level
-  q$F         <- -Inf
+  # Initialize posterior.
+  q <- list(
+    mu.mu = prior$mu.0,
+    eta.mu = prior$eta.0,
+    a.lambda = prior$a.0,
+    b.lambda = prior$b.0,
+    # Hard-coded prior on lower level.
+    mu.rho = rep(0, data$m),
+    # Hard-coded prior on lower level.
+    eta.rho = rep(0.1, data$m),
+    F = -Inf
+  )
 
-  # Begin EM iterations
-  max.iter <- 50
-  for (i in 1:max.iter) {
+  # Begin EM iterations.
+  for (i in seq(kMaxIter)) {
     q.old <- q
 
-    # 1st mean-field partition
+    # 1st mean-field partition.
     q <- update.rho(data, prior, q)
 
-    # 2nd mean-field partition
+    # 2nd mean-field partition.
     q <- update.mu(data, prior, q)
 
-    # 3rd mean-field partition
+    # 3rd mean-field partition.
     q <- update.lambda(data, prior, q)
 
-    # Free energy (q$F)
+    # Free energy (q$F).
     q <- free.energy(data, prior, q)
 
     # Convergence?
-    if (abs(q$F - q.old$F) < 1e-3) {
+    if (abs(q$F - q.old$F) < kConvergence) {
       break
-    } else if (i == max.iter) {
-      warning(paste0("vbicp.unb: reached maximum EM iterations (",max.iter,")"))
+    } else if (i == kMaxIter) {
+      warning("vbicp.unb: reached maximum EM iterations (", kMaxIter, ")")
     }
   }
   return(q)
