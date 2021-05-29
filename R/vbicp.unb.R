@@ -99,36 +99,44 @@ vbicp.unb <- function(ks, ns, verbose = 0) {
   return(q)
 }
 
+#' Updates the 1st mean-field partition
+#'
+#' @param data List of `ks`, `ns`, and `m`.
+#' @param prior List of `mu.0`, `eta.0`, `a.0`, `b.0`.
+#' @param q List of `mu.mu`, `eta.mu`, `a.lambda`, `b.lambda`, `mu.rho`,
+#'   `eta.rho`, `F`.
+#' @return A revised `q` with updated `mu.rho` and `eta.rho` elements.
 update.rho <- function(data, prior, q) {
-  # Updates the 1st mean-field partition
-
-  # Gauss-Newton scheme to find the mode
-  # Define Jacobian and Hessian
-  dI <-  function(rho) (data$ks - data$ns * safesigm(rho)) +
-         q$a.lambda * q$b.lambda * (q$mu.mu * rep(1, data$m) - rho)
-  d2I <- function(rho) -diag(data$ns * safesigm(rho) * (1-safesigm(rho))) -
-         q$a.lambda * q$b.lambda * diag(data$m)
+  # Gauss-Newton scheme to find the mode.
+  # Define Jacobian and Hessian.
+  dI <- function(rho) (data$ks - data$ns * safesigm(rho)) +
+    q$a.lambda * q$b.lambda * (q$mu.mu * rep(1, data$m) - rho)
+  d2I <- function(rho) -diag(data$ns * safesigm(rho) * (1 - safesigm(rho))) -
+    q$a.lambda * q$b.lambda * diag(data$m)
 
   # Iterate until convergence to find maximum,
-  # then update approximate posterior
-  max.iter <- 10
-  for (i in 1:max.iter) {
+  # then update approximate posterior.
+  max_iter <- 10
+  for (i in seq(max_iter)) {
     old.mu.rho <- q$mu.rho
 
+    # Update mean.
     q$mu.rho <- q$mu.rho - as.vector(solve(d2I(q$mu.rho), dI(q$mu.rho)))
 
     # Convergence?
     if (sum((q$mu.rho - old.mu.rho)^2) < 1e-3) {
       break
-    } else if (i == max.iter) {
-      warning(paste0("vbicp.unb: reached maximum GN iterations (",max.iter,")"))
+    } else if (i == max_iter) {
+      warning("vbicp.unb: reached maximum GN iterations (", max_iter, ")")
     }
   }
 
-  # Update precision
+  # Update precision.
   q$eta.rho <- t(diag(-d2I(q$mu.rho)))
   return(q)
 }
+
+# TODO: Continue here.
 
 update.mu <- function(data, prior, q) {
   # Updates the 2nd mean-field partition
