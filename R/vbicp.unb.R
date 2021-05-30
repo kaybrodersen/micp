@@ -87,7 +87,7 @@ vbicp.unb <- function(ks, ns, verbose = 0) {
     q <- update.lambda(data, prior, q)
 
     # Free energy (q$F).
-    q <- free.energy(data, prior, q)
+    q <- update.free.energy(data, prior, q)
 
     # Convergence?
     if (abs(q$F - q.old$F) < kConvergence) {
@@ -99,12 +99,13 @@ vbicp.unb <- function(ks, ns, verbose = 0) {
   return(q)
 }
 
-#' Updates the 1st mean-field partition
+#' Update the 1st mean-field partition (rho)
 #'
 #' @param data List of `ks`, `ns`, and `m`.
 #' @param prior List of `mu.0`, `eta.0`, `a.0`, `b.0`.
 #' @param q List of `mu.mu`, `eta.mu`, `a.lambda`, `b.lambda`, `mu.rho`,
 #'   `eta.rho`, `F`.
+#'
 #' @return A revised `q` with updated `mu.rho` and `eta.rho` elements.
 update.rho <- function(data, prior, q) {
   # Gauss-Newton scheme to find the mode.
@@ -136,12 +137,15 @@ update.rho <- function(data, prior, q) {
   return(q)
 }
 
-# TODO: Continue here.
-
+#' Update the 2nd mean-field partition (mu)
+#'
+#' @param data List of `ks`, `ns`, and `m`.
+#' @param prior List of `mu.0`, `eta.0`, `a.0`, `b.0`.
+#' @param q List of `mu.mu`, `eta.mu`, `a.lambda`, `b.lambda`, `mu.rho`,
+#'   `eta.rho`, `F`.
+#'
+#' @return A revised `q` with updated `mu.mu` and `eta.mu` elements.
 update.mu <- function(data, prior, q) {
-  # Updates the 2nd mean-field partition
-
-  # Update approximate posterior
   q$mu.mu <- (prior$mu.0 * prior$eta.0 +
              q$a.lambda * q$b.lambda *sum(q$mu.rho)) /
              (data$m * q$a.lambda * q$b.lambda + prior$eta.0)
@@ -149,19 +153,30 @@ update.mu <- function(data, prior, q) {
   return(q)
 }
 
+#' Update the 3rd mean-field partition (lambda)
+#'
+#' @param data List of `ks`, `ns`, and `m`.
+#' @param prior List of `mu.0`, `eta.0`, `a.0`, `b.0`.
+#' @param q List of `mu.mu`, `eta.mu`, `a.lambda`, `b.lambda`, `mu.rho`,
+#'   `eta.rho`, `F`.
+#'
+#' @return A revised `q` with updated `a.lambda` and `b.lambda` elements.
 update.lambda <- function(data, prior, q) {
-  # Updates the 3rd mean-field partition
-
-  # Update approximate posterior
   q$a.lambda <- prior$a.0 + data$m/2
   q$b.lambda <- 1/(1/prior$b.0 + 1/2 * sum((q$mu.rho - q$mu.mu)^2 +
                 1/q$eta.rho + 1/q$eta.mu))
   return(q)
 }
 
-# ------------------------------------------------------------------------------
-free.energy <- function(data, prior, q) {
-  # Approximation to the free energy
+#' Compute an approximation to the free-energy
+#'
+#' @param data List of `ks`, `ns`, and `m`.
+#' @param prior List of `mu.0`, `eta.0`, `a.0`, `b.0`.
+#' @param q List of `mu.mu`, `eta.mu`, `a.lambda`, `b.lambda`, `mu.rho`,
+#'   `eta.rho`, `F`.
+#'
+#' @return A revised `q` with an updated `F` field.
+update.free.energy <- function(data, prior, q) {
   q$F <- 1/2*(log(prior$eta.0) - log(q$eta.mu)) -
          prior$eta.0/2*((q$mu.mu-prior$mu.0)^2 + 1/q$eta.mu) + q$a.lambda -
          prior$a.0*log(prior$b.0) + lgamma(q$a.lambda)-lgamma(prior$a.0) -
