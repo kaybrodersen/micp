@@ -7,7 +7,7 @@
 #'
 #' @param ks Vector of successes in each population member.
 #' @param ns Vector of attempts in each population member.
-#' @param verbose Level of output verbosity: 0 or 1.
+#' @param verbose Level of output verbosity. Deprecated parameter.
 #'
 #' @return A list of posterior moments:
 #'   mu_mu:    mean of the posterior population mean effect
@@ -25,7 +25,7 @@
 #' @export
 #'
 #' @examples
-#' q <- vbicp.unb(c(6, 8, 5), c(10, 10, 10), verbose = 0)
+#' q <- vbicp.unb(c(6, 8, 5), c(10, 10, 10))
 #'
 #' @references
 #'   K.H. Brodersen, J. Daunizeau, C. Mathys, J.R. Chumbley, J.M. Buhmann, &
@@ -33,12 +33,16 @@
 #'   classification studies. NeuroImage (2013).
 #'   doi:10.1016/j.neuroimage.2013.03.008.
 #'   https://kaybrodersen.github.io/publications/Brodersen_2013_NeuroImage.pdf
-vbicp.unb <- function(ks, ns, verbose = 0) {
+vbicp.unb <- function(ks, ns, verbose = NULL) {
   # Check inputs.
   assert_that(is.vector(ks), is.numeric(ks))
   assert_that(is.vector(ns), is.numeric(ns))
   assert_that(length(ks) == length(ns))
-  assert_that(is.scalar(verbose), verbose %in% c(0, 1))
+  assert_that(length(ks) >= 2)
+  if (!is.null(verbose)) {
+    warning("The `verbose` parameter is deprecated and will be removed ",
+            "in a future version")
+  }
 
   # Set algorithm constants.
   kMaxIter <- 50
@@ -103,8 +107,7 @@ vbicp.unb <- function(ks, ns, verbose = 0) {
 #'
 #' @param data List of `ks`, `ns`, and `m`.
 #' @param prior List of `mu.0`, `eta.0`, `a.0`, `b.0`.
-#' @param q List of `mu.mu`, `eta.mu`, `a.lambda`, `b.lambda`, `mu.rho`,
-#'   `eta.rho`, `F`.
+#' @param q List of approximate posterior moments.
 #'
 #' @return A revised `q` with updated `mu.rho` and `eta.rho` elements.
 update.rho <- function(data, prior, q) {
@@ -141,8 +144,7 @@ update.rho <- function(data, prior, q) {
 #'
 #' @param data List of `ks`, `ns`, and `m`.
 #' @param prior List of `mu.0`, `eta.0`, `a.0`, `b.0`.
-#' @param q List of `mu.mu`, `eta.mu`, `a.lambda`, `b.lambda`, `mu.rho`,
-#'   `eta.rho`, `F`.
+#' @param q List of approximate posterior moments.
 #'
 #' @return A revised `q` with updated `mu.mu` and `eta.mu` elements.
 update.mu <- function(data, prior, q) {
@@ -157,8 +159,7 @@ update.mu <- function(data, prior, q) {
 #'
 #' @param data List of `ks`, `ns`, and `m`.
 #' @param prior List of `mu.0`, `eta.0`, `a.0`, `b.0`.
-#' @param q List of `mu.mu`, `eta.mu`, `a.lambda`, `b.lambda`, `mu.rho`,
-#'   `eta.rho`, `F`.
+#' @param q List of approximate posterior moments.
 #'
 #' @return A revised `q` with updated `a.lambda` and `b.lambda` elements.
 update.lambda <- function(data, prior, q) {
@@ -172,8 +173,7 @@ update.lambda <- function(data, prior, q) {
 #'
 #' @param data List of `ks`, `ns`, and `m`.
 #' @param prior List of `mu.0`, `eta.0`, `a.0`, `b.0`.
-#' @param q List of `mu.mu`, `eta.mu`, `a.lambda`, `b.lambda`, `mu.rho`,
-#'   `eta.rho`, `F`.
+#' @param q List of approximate posterior moments.
 #'
 #' @return A revised `q` with an updated `F` field.
 update.free.energy <- function(data, prior, q) {
