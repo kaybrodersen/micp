@@ -69,8 +69,9 @@ micp.stats <- function(ks, ns) {
 
     # Univariate normal-binomial model, VB
     unb.vb = {
-      assert(is.vector(ks), paste("for inference on accuracies, ks and ns must",
-                                  "be vectors"))
+      assert_that(is.vector(ks),
+                  msg = paste("for inference on accuracies, ks and ns must",
+                              "be vectors"))
       q <- vbicp.unb(ks, ns)
       mu <- logitnmean(q$mu.mu, 1/sqrt(q$eta.mu))
       p <- logitncdf(0.5, q$mu.mu, 1/sqrt(q$eta.mu))
@@ -81,8 +82,9 @@ micp.stats <- function(ks, ns) {
 
     # Twofold normal-binomial model, VB
     tnb.vb = {
-      assert(is.matrix(ks) && (nrow(ks)==2), paste("for inference on balanced",
-        "accuracies, ks and ns must each contain two rows"))
+      assert_that(is.matrix(ks), nrow(ks) == 2,
+                  msg = paste("for inference on balanced accuracies, ks and ns",
+                              "must each contain two rows"))
       qp <- vbicp.unb(ks[1, ], ns[1, ])
       qn <- vbicp.unb(ks[2, ], ns[2, ])
       mu <- logitnavgmean(qp$mu.mu, 1/sqrt(qp$eta.mu), qn$mu.mu, 1/sqrt(qn$eta.mu))
