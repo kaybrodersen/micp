@@ -1,3 +1,11 @@
+test_that("micp.stats rejects bad input", {
+  ks <- c(82,  75,  92,  85,  88)
+  ns <- c(100, 100, 100, 100, 100)
+  expect_error(micp.stats(NULL, ns), "ks must be a vector or matrix")
+  expect_error(micp.stats(c(90, 80), c(10, 100)), "ks cannot be bigger than ns")
+  # TODO: Continue here.
+})
+
 test_that("Readme example 1 (accuracy) is protected", {
   ks <- c(82,  75,  92,  85,  88)
   ns <- c(100, 100, 100, 100, 100)
