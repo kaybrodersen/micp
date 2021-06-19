@@ -53,15 +53,12 @@
 # Author: Kay H. Brodersen, ETH Zurich
 
 micp.stats <- function(ks, ns) {
-
-  # Check input
-  r <- check.ks.ns(ks, ns)
-  ks <- r$ks
-  ns <- r$ns
-
-  # Select appropriate model
-  if (is.vector(ks)) model <- "unb.vb"
-  if (is.matrix(ks)) model <- "tnb.vb"
+  # Select appropriate model.
+  check_inputs(ks, ns)
+  model <- "unb.vb"
+  if (is.matrix(ks)) {
+    model <- "tnb.vb"
+  }
 
   # Inference
   model <- tolower(model)
@@ -108,13 +105,15 @@ micp.stats <- function(ks, ns) {
   return(stats)
 }
 
-check.ks.ns <- function(ks, ns) {
-  assert(is.vector(ks) || is.matrix(ks), "ks must be a vector or matrix")
-  assert(all(ks <= ns), "ks cannot be bigger than ns")
-  assert(all(ks >= 0), "ks must be non-negative")
-  assert(all(ns >= 0), "ns must be non-negative")
-  assert(!all(ns == 0), "ns must not be all zero")
-  return(list(ks=ks, ns=ns))
+check_inputs <- function(ks, ns) {
+  assert_that(
+    (is.vector(ks) && is.vector(ns) && identical(length(ks), length(ns))) ||
+      (is.matrix(ks) && is.matrix(ns) && identical(dim(ks), dim(ns))),
+    msg = "ks and ns must have same dimensions")
+  assert_that(all(ks <= ns), msg = "ks cannot be bigger than ns")
+  assert_that(all(ks >= 0), msg = "ks must be non-negative")
+  assert_that(all(ns >= 0), msg = "ns must be non-negative")
+  assert_that(any(ns > 0), msg = "ns must not be all zero")
 }
 
 summary.micp <- function(stats, ...) {

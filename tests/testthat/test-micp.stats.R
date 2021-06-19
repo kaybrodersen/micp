@@ -1,9 +1,15 @@
-test_that("micp.stats rejects bad input", {
-  ks <- c(82,  75,  92,  85,  88)
-  ns <- c(100, 100, 100, 100, 100)
-  expect_error(micp.stats(NULL, ns), "ks must be a vector or matrix")
+test_that("micp.stats rejects bad vector input", {
+  expect_error(micp.stats(c(0, 0), cbind(c(80, 80), c(100, 100))),
+               "ks and ns must have same dimensions")
+  expect_error(micp.stats(5, c(10, 20)), "ks and ns must have same dimensions")
+  expect_error(micp.stats(rbind(c(10, 20, 30), c(30, 40, 50)),
+                          rbind(c(80, 80), c(100, 100))),
+               "ks and ns must have same dimensions")
+  expect_error(micp.stats(NULL, c(10, 20)),
+               "ks and ns must have same dimensions")
   expect_error(micp.stats(c(90, 80), c(10, 100)), "ks cannot be bigger than ns")
-  # TODO: Continue here.
+  expect_error(micp.stats(c(-5, 80), c(100, 100)), "ks must be non-negative")
+  expect_error(micp.stats(c(0, 0), c(0, 0)), "ns must not be all zero")
 })
 
 test_that("Readme example 1 (accuracy) is protected", {
