@@ -53,54 +53,41 @@
 # Author: Kay H. Brodersen, ETH Zurich
 
 micp.stats <- function(ks, ns) {
-  # Select appropriate model.
   check_inputs(ks, ns)
-  model <- "unb.vb"
-  if (is.matrix(ks)) {
-    model <- "tnb.vb"
+
+  if (is.vector(ks)) {
+    # Univariate normal-binomial model, VB.
+    q <- vbicp.unb(ks, ns)
+    mu <- logitnmean(q$mu.mu, 1 / sqrt(q$eta.mu))
+    p <- logitncdf(0.5, q$mu.mu, 1 / sqrt(q$eta.mu))
+    ci <- c(logitninv(0.025, q$mu.mu, 1 / sqrt(q$eta.mu)),
+            logitninv(0.975, q$mu.mu, 1 / sqrt(q$eta.mu)))
+    stats <- list(mu = mu, p = p, ci = ci, q = q, model = "unb.vb")
+
+  } else if (is.matrix(ks)) {
+    # Twofold normal-binomial model, VB.
+    qp <- vbicp.unb(ks[1, ], ns[1, ])
+    qn <- vbicp.unb(ks[2, ], ns[2, ])
+    mu <- logitnavgmean(qp$mu.mu, 1 / sqrt(qp$eta.mu),
+                        qn$mu.mu, 1 / sqrt(qn$eta.mu))
+    p <- logitnavgcdf(0.5, qp$mu.mu, 1 / sqrt(qp$eta.mu),
+                      qn$mu.mu, 1 / sqrt(qn$eta.mu))
+    ci <- c(logitnavginv(0.025, qp$mu.mu, 1 / sqrt(qp$eta.mu),
+                                qn$mu.mu, 1 / sqrt(qn$eta.mu)),
+            logitnavginv(0.975, qp$mu.mu, 1 / sqrt(qp$eta.mu),
+                                qn$mu.mu, 1 / sqrt(qn$eta.mu)))
+    mu.phij <- rep(NA, ncol(ks))
+    for (j in seq_len(ncol(ks))) {
+      mu.phij[j] <- logitnavgmean(qp$mu.rho[j], 1 / sqrt(qp$eta.rho[j]),
+                                  qn$mu.rho[j], 1 / sqrt(qn$eta.rho[j]))
+    }
+    stats <- list(mu = mu, p = p, ci = ci, qp = qp, qn = qn, mu.phij = mu.phij,
+                  model = "tnb.vb")
+  } else {
+    stop("unexpected input")
   }
 
-  # Inference
-  model <- tolower(model)
-  switch(model,
-
-    # Univariate normal-binomial model, VB
-    unb.vb = {
-      assert_that(is.vector(ks),
-                  msg = paste("for inference on accuracies, ks and ns must",
-                              "be vectors"))
-      q <- vbicp.unb(ks, ns)
-      mu <- logitnmean(q$mu.mu, 1/sqrt(q$eta.mu))
-      p <- logitncdf(0.5, q$mu.mu, 1/sqrt(q$eta.mu))
-      ci <- c(logitninv(0.025, q$mu.mu, 1/sqrt(q$eta.mu)),
-              logitninv(0.975, q$mu.mu, 1/sqrt(q$eta.mu)))
-      stats <- list(mu=mu, p=p, ci=ci, q=q)
-    },
-
-    # Twofold normal-binomial model, VB
-    tnb.vb = {
-      assert_that(is.matrix(ks), nrow(ks) == 2,
-                  msg = paste("for inference on balanced accuracies, ks and ns",
-                              "must each contain two rows"))
-      qp <- vbicp.unb(ks[1, ], ns[1, ])
-      qn <- vbicp.unb(ks[2, ], ns[2, ])
-      mu <- logitnavgmean(qp$mu.mu, 1/sqrt(qp$eta.mu), qn$mu.mu, 1/sqrt(qn$eta.mu))
-      p <- logitnavgcdf(0.5, qp$mu.mu, 1/sqrt(qp$eta.mu), qn$mu.mu, 1/sqrt(qn$eta.mu))
-      ci <- c(logitnavginv(0.025, qp$mu.mu, 1/sqrt(qp$eta.mu),
-                                  qn$mu.mu, 1/sqrt(qn$eta.mu)),
-              logitnavginv(0.975, qp$mu.mu, 1/sqrt(qp$eta.mu),
-                                  qn$mu.mu, 1/sqrt(qn$eta.mu)))
-      mu.phij <- rep(NA, ncol(ks))
-      for (j in 1:ncol(ks))
-        mu.phij[j] <- logitnavgmean(qp$mu.rho[j], 1/sqrt(qp$eta.rho[j]),
-                                    qn$mu.rho[j], 1/sqrt(qn$eta.rho[j]))
-      stats <- list(mu=mu, p=p, ci=ci, qp=qp, qn=qn, mu.phij=mu.phij)
-    },
-    stop("invalid model - type '?micp.stats' for help")
-  )
-
-  # Finalize and return
-  stats$model <- tolower(model)
+  # Finalize and return.
   class(stats) <- "micp"
   return(stats)
 }
