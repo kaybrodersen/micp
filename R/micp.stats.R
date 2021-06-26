@@ -41,9 +41,17 @@
 #'   accuracy and its posterior distribution. ICPR, 3121-3124.
 #'
 #' @examples
+#'   # Accuracy:
+#'   ks <- c(19, 41, 15, 39, 39)
+#'   ns <- c(45, 51, 20, 46, 58)
+#'   results1 <- micp::micp.stats(ks, ns)
+#'   print(results1)
+#'
+#'   # Balanced accuracy:
 #'   ks <- rbind(c(19, 41, 15, 39, 39), c(41, 46, 43, 48, 37))
 #'   ns <- rbind(c(45, 51, 20, 46, 58), c(55, 49, 80, 54, 42))
-#'   results <- micp::micp.stats(ks, ns)
+#'   results2 <- micp::micp.stats(ks, ns)
+#'   print(results2)
 #' @export
 micp.stats <- function(ks, ns) {
   check_inputs(ks, ns)
@@ -98,50 +106,48 @@ summary.micp <- function(stats, ...) {
   print(stats, ...)
 }
 
-# TODO: Continue here.
-
+#' Title
+#'
+#' @param stats
+#' @param ...
+#'
+#' @return
+#' @export
+#'
+#' @examples
 print.micp <- function(stats, ...) {
-  switch(stats$model,
-    unb.vb = {
-      cat("Variational Bayesian mixed-effects inference on classification\n")
-      cat("accuracy\n")
-      cat("\n")
-      cat("Population inference\n")
-      cat(paste0("  posterior mean accuracy:    ", round(stats$mu, 2),
-          " (p = ", round(stats$p, 5), ")\n"))
-      cat(paste0("  posterior 95% interval:     [",
-                   round(stats$ci[1], 2), ", ", round(stats$ci[2], 2), "]\n"))
-      cat("\n")
-      cat("Subject-specific inference\n")
-      q <- stats$q
-      cat(paste0("  posterior logit means:      ",
-                 paste(round(q$mu.rho,  2), collapse=", "), "\n"))
-      cat(paste0("  posterior logit precisions: ",
-                 paste(round(q$eta.rho, 2), collapse=", "), "\n"))
-      cat("\n")
-      cat("Bayesian model comparison\n")
-      cat(paste0("  free energy F: ", round(stats$q$F,2)))
-    },
-
-    tnb.vb = {
-      cat("Variational Bayesian mixed-effects inference on the balanced\n")
-      cat("classification accuracy\n")
-      cat("\n")
-      cat("Population inference\n")
-      cat(paste0("  posterior mean balanced accuracy:    ",
-                   round(stats$mu, 2),
-			          " (p = ", round(stats$p, 5), ")\n"))
-      cat(paste0("  posterior 95% interval:              [",
-                   round(stats$ci[1], 2), ", ", round(stats$ci[2], 2), "]\n"))
-      cat("\n")
-      cat("Subject-specific inference\n")
-      cat(paste0("  posterior balanced accuracy means:   ",
-                 paste(round(stats$mu.phij,  2), collapse=", "), "\n"))
-      cat("\n")
-      cat("Bayesian model comparison\n")
-      cat(paste0("  free energy F: ", round(stats$qp$F + stats$qn$F,2)))
-    },
-
+  assert_that(is.string(stats$model))
+  summary <- switch(stats$model,
+    unb.vb = paste0(
+      "Variational Bayesian mixed-effects inference on classification\n",
+      "accuracy\n\n",
+      "Population inference\n",
+      "  posterior mean accuracy:    ", round(stats$mu, 2),
+      " (p = ", round(stats$p, 5), ")\n",
+      "  posterior 95% interval:     [",
+      round(stats$ci[1], 2), ", ", round(stats$ci[2], 2), "]\n\n",
+      "Subject-specific inference\n",
+      "  posterior logit means:      ",
+      paste(round(stats$q$mu.rho,  2), collapse=", "), "\n",
+      "  posterior logit precisions: ",
+      paste(round(stats$q$eta.rho, 2), collapse=", "), "\n\n",
+      "Bayesian model comparison\n",
+      "  free energy F: ", round(stats$q$F,2)),
+    tnb.vb = paste0(
+      "Variational Bayesian mixed-effects inference on the balanced\n",
+      "classification accuracy\n\n",
+      "Population inference\n",
+      "  posterior mean balanced accuracy:  ",
+      round(stats$mu, 2), " (p = ", round(stats$p, 5), ")\n",
+      "  posterior 95% interval:            [",
+      round(stats$ci[1], 2), ", ", round(stats$ci[2], 2), "]\n\n",
+      "Subject-specific inference\n",
+      "  posterior balanced accuracy means: ",
+      paste(round(stats$mu.phij,  2), collapse=", "), "\n\n",
+      "Bayesian model comparison\n",
+      "  free energy F: ", round(stats$qp$F + stats$qn$F,2)),
     stop("invalid model - object must be a result of micp.stats()")
   )
+  cat(summary)
+  invisible(summary)
 }
