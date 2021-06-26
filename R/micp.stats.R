@@ -1,57 +1,50 @@
-# Mixed-effects inference on classification performance.
-#
-# Usage:
-#   results <- micp.stats(ks, ns)
-#
-# Args:
-#   When inferring on accuracies, the input arguments are:
-#   ks:    m-sized vector of number of correct predictions (in each subject)
-#   ns:    m-sized vector of total number of trials (in each subject)
-#
-#   When inferring on balanced accuracies, the input arguments are:
-#   ks:    2xm matrix of correctly predicted positive trials (first row)
-#          and corectly predicted negative trials (second row)
-#   ns:    2xm matrix of total number of positive (first row) and negative
-#          (second row) trials
-#
-# Returns a list with the following fields:
-#   mu:    Posterior mean of the population mean accuracy or balanced accuracy.
-#          This is the expected performance of the classifier at the group
-#          level.
-#   p:     Posterior infraliminal probability of the population mean. This is
-#          the posterior belief that the classifier did not operate above chance
-#          (50%). A small infraliminal probability represents evidence for
-#          above-chance performance.
-#   ci:    Posterior 95% credible interval of the population mean. This interval
-#          can be used to show error bars around mu.
-#   stats: Additional return values, depending on the selected model. See
-#          individual inference functions for details.
-#
-# This function provides an interface to an underlying inference algorithm based
-# on Variational Bayes. For details, see the respective help text. For MCMC
-# implementations, see the corresponding MATLAB toolbox.
-#
-# Example:
-#   ks <- rbind(c(19, 41, 15, 39, 39), c(41, 46, 43, 48, 37))
-#   ns <- rbind(c(45, 51, 20, 46, 58), c(55, 49, 80, 54, 42))
-#   results <- micp.stats(ks, ns)
-#
-# Literature:
-#   K.H. Brodersen, J. Daunizeau, C. Mathys, J.R. Chumbley, J.M. Buhmann, &
-#   K.E. Stephan (2013). Variational Bayesian mixed-effects inference for
-#   classification studies. NeuroImage (in press).
-#   doi:10.1016/j.neuroimage.2013.03.008.
-#
-#   K.H. Brodersen, C. Mathys, J.R. Chumbley, J. Daunizeau, C.S. Ong, J.M.
-#   Buhmann, & K.E. Stephan (2012). Bayesian mixed-effects inference on
-#   classification performance in hierarchical datsets. Journal of Machine
-#   Learning Research, 13, 3133-3176.
-#
-#   K.H. Brodersen, C.S. Ong, J.M. Buhmann, & K.E. Stephan (2010). The balanced
-#   accuracy and its posterior distribution. ICPR, 3121-3124.
-#
-# Author: Kay H. Brodersen, ETH Zurich
-
+#' Mixed-effects inference on classification performance
+#'
+#' @param ks When inferring on accuracies: m-sized vector of number of correct
+#' predictions (in each subject). When inferring on balanced accuracies: 2xm
+#' matrix of correctly predicted positive trials (first row) and corectly
+#' predicted negative trials (second row).
+#'
+#' @param ns When inferring on accuracies: m-sized vector of total number of
+#' trials (in each subject). When inferring on balanced accuracies: 2xm matrix
+#' of total number of positive (first row) and negative (second row) trials.
+#'
+#' @return A list with the following fields: mu, p, ci, and stats.
+#'
+#'   mu: Posterior mean of the population mean accuracy or balanced accuracy.
+#'     This is the expected performance of the classifier at the group level.
+#'
+#'   p: Posterior infraliminal probability of the population mean. This is
+#'     the posterior belief that the classifier did not operate above chance
+#'     (50%). A small infraliminal probability represents evidence for
+#'     above-chance performance.
+#'
+#'   ci: Posterior 95% credible interval of the population mean. This interval
+#'     can be used to show error bars around mu.
+#'
+#'   stats: Additional return values, depending on the selected model. See
+#'     individual inference functions for details.
+#'
+#' @author Kay H. Brodersen, ETH Zurich
+#' @note Literature:
+#'   K.H. Brodersen, J. Daunizeau, C. Mathys, J.R. Chumbley, J.M. Buhmann, &
+#'   K.E. Stephan (2013). Variational Bayesian mixed-effects inference for
+#'   classification studies. NeuroImage (in press).
+#'   doi:10.1016/j.neuroimage.2013.03.008.
+#'
+#'   K.H. Brodersen, C. Mathys, J.R. Chumbley, J. Daunizeau, C.S. Ong, J.M.
+#'   Buhmann, & K.E. Stephan (2012). Bayesian mixed-effects inference on
+#'   classification performance in hierarchical datsets. Journal of Machine
+#'   Learning Research, 13, 3133-3176.
+#'
+#'   K.H. Brodersen, C.S. Ong, J.M. Buhmann, & K.E. Stephan (2010). The balanced
+#'   accuracy and its posterior distribution. ICPR, 3121-3124.
+#'
+#' @examples
+#'   ks <- rbind(c(19, 41, 15, 39, 39), c(41, 46, 43, 48, 37))
+#'   ns <- rbind(c(45, 51, 20, 46, 58), c(55, 49, 80, 54, 42))
+#'   results <- micp::micp.stats(ks, ns)
+#' @export
 micp.stats <- function(ks, ns) {
   check_inputs(ks, ns)
 
@@ -86,8 +79,6 @@ micp.stats <- function(ks, ns) {
   } else {
     stop("unexpected input")
   }
-
-  # Finalize and return.
   class(stats) <- "micp"
   return(stats)
 }
@@ -107,10 +98,10 @@ summary.micp <- function(stats, ...) {
   print(stats, ...)
 }
 
+# TODO: Continue here.
+
 print.micp <- function(stats, ...) {
   switch(stats$model,
-
-    # Univariate normal-binomial model, VB
     unb.vb = {
       cat("Variational Bayesian mixed-effects inference on classification\n")
       cat("accuracy\n")
@@ -151,6 +142,6 @@ print.micp <- function(stats, ...) {
       cat(paste0("  free energy F: ", round(stats$qp$F + stats$qn$F,2)))
     },
 
-    stop("invalid model - did you create this object using micp.stats()?")
+    stop("invalid model - object must be a result of micp.stats()")
   )
 }
