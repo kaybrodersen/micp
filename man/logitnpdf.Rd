@@ -7,14 +7,19 @@
 logitnpdf(x, mu, sigma)
 }
 \arguments{
-\item{sigma}{}
+\item{x}{Vector of values.}
+
+\item{mu}{Location parameter.}
+
+\item{sigma}{Scale parameter.}
 }
 \value{
-
+Density of the logit-normal distribution.
 }
 \description{
 Logit-normal probability density function
 }
 \examples{
 logitnpdf(0.5, 1, 2)
+logitnpdf(c(0, 0.5), c(0, 1), 2)
 }
