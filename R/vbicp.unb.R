@@ -183,7 +183,7 @@ update.free.energy <- function(data, prior, q) {
          q$a.lambda*q$b.lambda*(1/prior$b.0 + data$m/(2*q$eta.mu)) +
          (prior$a.0 + data$m/2)*log(q$b.lambda) +
          (prior$a.0 - q$a.lambda + data$m/2)*digamma(q$a.lambda) + 1/2 +
-         sum(log(dbinom(data$ks, data$ns, safesigm(q$mu.rho))) -
+         sum(log(stats::dbinom(data$ks, data$ns, safesigm(q$mu.rho))) -
           1/2*q$a.lambda*q$b.lambda*(q$mu.rho-q$mu.mu)^2 -
           1/2*log(q$eta.rho));
   return(q)
