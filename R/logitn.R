@@ -61,7 +61,7 @@ logitncdf <- function(x, mu, sigma) {
   } else {
     # Find the root of `logitncdf(x, mu, sigma) - p`.
     f <- function(z) logitncdf(z, mu, sigma) - p
-    x = uniroot(f, c(0, 1))$root
+    x = stats::uniroot(f, c(0, 1))$root
   }
   return(x)
 }

@@ -27,7 +27,7 @@ logitnavgcdf <- function(x, mu1, sigma1, mu2, sigma2) {
     x <- NA_real_
   } else {
     f <- function(z) logitnavgcdf(z, mu1, sigma1, mu2, sigma2) - y
-    x <- uniroot(f, c(0, 1))$root
+    x <- stats::uniroot(f, c(0, 1))$root
   }
   return(x)
 }
@@ -63,7 +63,7 @@ logitnavginv <- Vectorize(.logitnavginv)
 #' @param mu2 Location parameter of the second distribution.
 #' @param sigma2 Scale parameter of the second distribution.
 #'
-#' @return
+#' @return Expectation of the average of two logit-normal variables.
 #' @export
 #'
 #' @examples
