@@ -106,16 +106,21 @@ summary.micp <- function(stats, ...) {
   print(stats, ...)
 }
 
-#' Title
+#' Prints a summary of the inference.
 #'
-#' @param stats
-#' @param ...
+#' @param x An object returned by `micp.stats()`.
+#' @param ... Optional additional arguments (currently unused).
 #'
-#' @return
+#' @return The printed string.
 #' @export
 #'
 #' @examples
-print.micp <- function(stats, ...) {
+#'   ks <- c(19, 41, 15, 39, 39)
+#'   ns <- c(45, 51, 20, 46, 58)
+#'   results <- micp::micp.stats(ks, ns)
+#'   print(results)
+print.micp <- function(x, ...) {
+  stats <- x
   assert_that(is.string(stats$model))
   summary <- switch(stats$model,
     unb.vb = paste0(
