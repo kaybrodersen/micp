@@ -2,23 +2,18 @@
 #
 # Author: Kay H. Brodersen, ETH Zurich
 
-assert <- function (expr = TRUE, error = "") {
-  # Assert
-  if (! expr) stop(error, call. = FALSE)
-}
-
-repmat <- function(X, m, n) {
-  if (is.vector(X)) X <- t(as.matrix(X))
-  mx = dim(X)[1]
-  nx = dim(X)[2]
-  matrix(t(matrix(X, mx, nx*n)), mx*m, nx*n, byrow=T)
-}
-
+#' Logit transform
+#'
+#' @param b Numeric vector.
+#'
+#' @return Logit transform of the input vector.
+#'
+#' @NoRd
 logit <- function(b) {
-  # Logit transform
+  # Logit transform.
 
-  b[b < 0 | b > 1] <- NA
-  a <- log(b/(1-b));
+  b[b < 0 | b > 1] <- NA_real_
+  a <- log(b / (1 - b));
   return(a)
 }
 
@@ -41,11 +36,18 @@ trapz <- function(x, y) {
 conv <- function(u, v) {
   # Equivalent of the MATLAB conv() function for discrete convolution
 
-  return(convolve(u, rev(v), type = "open"))
+  return(stats::convolve(u, rev(v), type = "open"))
 }
 
 erf <- function(x) {
   # Error function (see ?pnorm).
 
-  return(2 * pnorm(x * sqrt(2)) - 1)
+  return(2 * stats::pnorm(x * sqrt(2)) - 1)
+}
+
+repmat <- function(X, m, n) {
+  if (is.vector(X)) X <- t(as.matrix(X))
+  mx = dim(X)[1]
+  nx = dim(X)[2]
+  matrix(t(matrix(X, mx, nx*n)), mx*m, nx*n, byrow=T)
 }
