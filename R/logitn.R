@@ -2,6 +2,32 @@
 #
 # Author: Kay H. Brodersen, ETH Zurich
 
+#' Logit transform
+#'
+#' @param b Numeric vector.
+#'
+#' @return Logit transform of the input vector.
+#'
+#' @NoRd
+logit <- function(x) {
+  y <- x
+  y[y < 0 | y > 1] <- NA_real_
+  y <- log(y / (1 - y))
+  return(y)
+}
+
+#' Equivalent of the MATLAB conv() function for discrete convolution
+#'
+#' @param u
+#' @param v
+#'
+#' @return
+#'
+#' @NoRd
+conv <- function(u, v) {
+  return(stats::convolve(u, rev(v), type = "open"))
+}
+
 #' Logit-normal probability density function
 #'
 #' @param x Vector of values.
