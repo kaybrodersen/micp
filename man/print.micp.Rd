@@ -2,16 +2,24 @@
 % Please edit documentation in R/micp.stats.R
 \name{print.micp}
 \alias{print.micp}
-\title{Title}
+\title{Prints a summary of the inference.}
 \usage{
-\method{print}{micp}(stats, ...)
+\method{print}{micp}(x, ...)
 }
 \arguments{
-\item{...}{}
+\item{x}{An object returned by `micp.stats()`.}
+
+\item{...}{Optional additional arguments (currently unused).}
 }
 \value{
-
+The printed string.
 }
 \description{
-Title
+Prints a summary of the inference.
+}
+\examples{
+  ks <- c(19, 41, 15, 39, 39)
+  ns <- c(45, 51, 20, 46, 58)
+  results <- micp::micp.stats(ks, ns)
+  print(results)
 }
