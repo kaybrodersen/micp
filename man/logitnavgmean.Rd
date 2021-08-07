@@ -16,7 +16,7 @@ logitnavgmean(mu1, sigma1, mu2, sigma2)
 \item{sigma2}{Scale parameter of the second distribution.}
 }
 \value{
-
+Expectation of the average of two logit-normal variables.
 }
 \description{
 Expectation of the average of two logit-normal variables
