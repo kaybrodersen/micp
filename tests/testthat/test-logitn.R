@@ -1,3 +1,20 @@
+test_that("logit returns expected result on inputs in [0, 1]", {
+  expect_equal(logit(0), -Inf)
+  expect_equal(logit(1), Inf)
+  # logit(0.1) = log(0.1 / (1 - 0.1)) = -2.197225.
+  expect_equal(logit(0.1), -2.197225, tolerance = 1e-6)
+})
+
+test_that("logit returns NA on input outside of [0, 1]", {
+  expect_equal(logit(-0.1), NA_real_)
+  expect_equal(logit(1.1), NA_real_)
+})
+
+test_that("logit works on vector input", {
+  expect_equal(logit(c(0, 1, -0.1, 1.1, NA_real_, NA)),
+               c(-Inf, Inf, NA_real_, NA_real_, NA_real_, NA_real_))
+})
+
 test_that("logitnpdf returns expected result", {
   # p_logitnormal(x = 0.5 | mu = 2, sigma = 1.5)
   # = 1/(1.5*sqrt(2*pi)) * exp(-((logit(0.5)-2)^2)/(2*1.5^2)) / (0.5 * (1-0.5))
