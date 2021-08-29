@@ -2,9 +2,15 @@
 #
 # Author: Kay H. Brodersen, ETH Zurich
 
+#' Safe sigmoid function. Return values below 1e-8 will be set to 1e-8.
+#'
+#' @param a Numeric scalar or vector.
+#'
+#' @return Numeric scalar or vector.
+#' @export
+#'
+#' @NoRd
 safesigm <- function(a) {
-  # Safe sigmoid function. Return values below 1e-8 will be set to 1e-8.
-
   b = 1 / (1 + exp(-a))
   b[b < 1e-8] <- 1e-8
   return(b)
