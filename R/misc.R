@@ -16,11 +16,21 @@ safesigm <- function(a) {
   return(b)
 }
 
+#' Trapezoid rule numerical integration.
+#'
+#' @param x Support values.
+#' @param y Function values.
+#'
+#' @return
+#' @export
+#'
+#' @NoRd
 trapz <- function(x, y) {
-  # Trapezoid rule numerical integration
-
-  idx <- 2:length(x)
-  s <- as.double( (x[idx] - x[idx-1]) %*% (y[idx] + y[idx-1])) / 2
+  assert_that(is.numeric(x), is.vector(x))
+  assert_that(is.numeric(y), is.vector(y))
+  assert_that(length(x) >= 2, length(y) == length(x))
+  idx <- seq(2, length(x))
+  s <- as.double((x[idx] - x[idx - 1]) %*% (y[idx] + y[idx - 1])) / 2
   return(s)
 }
 
