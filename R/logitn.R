@@ -21,11 +21,22 @@ logit <- function(x) {
 #' @param u
 #' @param v
 #'
-#' @return
+#' @return Value of the convolution.
 #'
 #' @NoRd
 conv <- function(u, v) {
   return(stats::convolve(u, rev(v), type = "open"))
+}
+
+#' Error function.
+#'
+#' @param x Real-valued scalar or vector.
+#'
+#' @return Value of the error function (see also ?pnorm).
+#'
+#' @NoRd
+erf <- function(x) {
+  return(2 * stats::pnorm(x * sqrt(2)) - 1)
 }
 
 #' Logit-normal probability density function

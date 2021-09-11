@@ -34,12 +34,6 @@ trapz <- function(x, y) {
   return(s)
 }
 
-erf <- function(x) {
-  # Error function (see ?pnorm).
-
-  return(2 * stats::pnorm(x * sqrt(2)) - 1)
-}
-
 repmat <- function(X, m, n) {
   if (is.vector(X)) X <- t(as.matrix(X))
   mx = dim(X)[1]
