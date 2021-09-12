@@ -22,7 +22,6 @@ safesigm <- function(a) {
 #' @param y Function values.
 #'
 #' @return
-#' @export
 #'
 #' @NoRd
 trapz <- function(x, y) {
@@ -34,9 +33,20 @@ trapz <- function(x, y) {
   return(s)
 }
 
-repmat <- function(X, m, n) {
-  if (is.vector(X)) X <- t(as.matrix(X))
+#' Replicate a matrix.
+#'
+#' @param X Vector or matrix.
+#' @param m Number of vertical replications.
+#' @param n Number of horizontal replications.
+#'
+#' @return Replicated matrix.
+#' @export
+repmat <- function(X, m = 1L, n = 1L) {
+  if (is.vector(X)) {
+    X <- t(as.matrix(X))
+  }
+  assert_that(m >= 1, n >= 1)
   mx = dim(X)[1]
   nx = dim(X)[2]
-  matrix(t(matrix(X, mx, nx*n)), mx*m, nx*n, byrow=T)
+  matrix(t(matrix(X, mx, nx * n)), mx * m, nx * n, byrow = TRUE)
 }
