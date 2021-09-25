@@ -1,3 +1,17 @@
+test_that("safesigm generally corresponds to the sigmoid function", {
+  # sigmoid(1) = 1 / (1 + exp(-1)) ~= 0.7310586.
+  expect_equal(safesigm(1), 0.7310586, tolerance = 1e-6)
+})
+
+test_that("safesigm returns at least 1e-8", {
+  # sigmoid(-100) = 1 / (1 + exp(100)) << 1e-8 => 1e-8.
+  expect_equal(safesigm(-100), 1e-8)
+})
+
+test_that("safesigm works on scalar input", {
+  expect_equal(safesigm(c(1, -100)), c(0.7310586, 1e-8), tolerance = 1e-6)
+})
+
 test_that("repmat returns unaltered input as matrix by default", {
   expect_equal(repmat(1), matrix(1))
   expect_equal(repmat(matrix(c(1, 2, 3))), matrix(c(1, 2, 3)))
