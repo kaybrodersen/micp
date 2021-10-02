@@ -12,6 +12,28 @@ test_that("micp.stats rejects bad vector input", {
   expect_error(micp.stats(c(0, 0), c(0, 0)), "ns must not be all zero")
 })
 
+test_that("print.micp.stats() works as expected", {
+  ks <- c(82,  75,  92,  85,  88)
+  ns <- c(100, 100, 100, 100, 100)
+  stats <- micp.stats(ks, ns)
+  result <- print(stats)
+  expected <-
+"Variational Bayesian mixed-effects inference on classification
+accuracy
+
+Population inference
+  posterior mean accuracy:    0.82 (p = 0)
+  posterior 95% interval:     [0.72, 0.9]
+
+Subject-specific inference
+  posterior logit means:      1.52, 1.14, 2.27, 1.71, 1.93
+  posterior logit precisions: 16.62, 20.25, 10.39, 14.86, 13
+
+Bayesian model comparison
+  free energy F: -20.28"
+  expect_equal(result, expected)
+})
+
 test_that("Readme example 1 (accuracy) is protected", {
   ks <- c(82,  75,  92,  85,  88)
   ns <- c(100, 100, 100, 100, 100)
