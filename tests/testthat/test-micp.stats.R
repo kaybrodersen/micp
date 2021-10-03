@@ -12,11 +12,10 @@ test_that("micp.stats rejects bad vector input", {
   expect_error(micp.stats(c(0, 0), c(0, 0)), "ns must not be all zero")
 })
 
-test_that("print.micp.stats() works as expected", {
+test_that("print() and summary() work as expected", {
   ks <- c(82,  75,  92,  85,  88)
   ns <- c(100, 100, 100, 100, 100)
   stats <- micp.stats(ks, ns)
-  result <- print(stats)
   expected <-
 "Variational Bayesian mixed-effects inference on classification
 accuracy
@@ -31,7 +30,11 @@ Subject-specific inference
 
 Bayesian model comparison
   free energy F: -20.28"
-  expect_equal(result, expected)
+  # Use `invisible(capture.output(...))` to suppress printed output.
+  invisible(capture.output(result_print <- print(stats)))
+  invisible(capture.output(result_summary <- summary(stats)))
+  expect_equal(result_print, expected)
+  expect_equal(result_summary, expected)
 })
 
 test_that("Readme example 1 (accuracy) is protected", {
