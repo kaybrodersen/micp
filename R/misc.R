@@ -2,7 +2,6 @@
 #
 # Author: Kay H. Brodersen, ETH Zurich
 
-
 #' Safe sigmoid function. Return values below 1e-8 will be set to 1e-8.
 #'
 #' @param a Numeric scalar or vector.
