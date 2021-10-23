@@ -36,3 +36,31 @@ You can install the package from [GitHub](https://github.com/) with:
 # install.packages("devtools")
 devtools::install_github("kaybrodersen/micp")
 ```
+
+## Literature
+
+  - *Variational Bayesian mixed-effects inference for classification
+    studies.* K.H. Brodersen, J. Daunizeau, C. Mathys, J.R. Chumbley,
+    J.M. Buhmann, & K.E. Stephan (2013). *NeuroImage*, 76, 345-361
+    ([PDF](https://kaybrodersen.github.io/publications/Brodersen_2013_NeuroImage.pdf)).
+
+  - *Bayesian mixed-effects inference on classification performance in
+    hierarchical data sets.* K.H. Brodersen, C. Mathys, J.R. Chumbley,
+    J. Daunizeau, C.S. Ong, J.M. Buhmann, & K.E. Stephan (2012).
+    *Journal of Machine Learning Research*, 13, 3133-3176
+    ([PDF](https://kaybrodersen.github.io/publications/Brodersen_2012_JMLR.pdf)).
+
+  - *Mixed-effects inference on classification performance in group
+    studies.* K.H. Brodersen, J.R. Chumbley, C. Mathys, J. Daunizeau,
+    J.M. Buhmann, K.E. Stephan (2011) *HBM*, Quebec City, Canada
+    ([Poster](https://kaybrodersen.github.io/publications/Brodersen_2011d_HBM.pdf)).
+
+  - *Variational Bayesian mixed-effects inference for classification
+    studies.* K.H. Brodersen, J. Daunizeau, C. Mathys, J.R. Chumbley,
+    J.M. Buhmann, K.E. Stephan (2012) *HBM*, Beijing, China
+    ([Poster](https://kaybrodersen.github.io/publications/Brodersen_2012b_HBM.pdf)).
+
+  - *The balanced accuracy and its posterior distribution.* K.H.
+    Brodersen, C.S. Ong, J.M. Buhmann, & K.E. Stephan (2010). *ICPR*,
+    3121-3124
+    ([PDF](https://kaybrodersen.github.io/publications/Brodersen_2010b_ICPR.pdf)).
