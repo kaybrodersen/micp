@@ -37,6 +37,20 @@ You can install the package from [GitHub](https://github.com/) with:
 devtools::install_github("kaybrodersen/micp")
 ```
 
+## Example 1: Inference on the accuracy
+
+Consider a situation in which a classification algorithm (e.g., a
+logistic regression model, a support vector machine, or a deep learning
+model) has been trained and tested to predict the binary label (+1 or
+-1) of a set of trials. Further, assume the analysis has been carried
+out independently for each subject within a group. The results can then
+be summarized in terms of two vectors: The first one, *k*, encodes the
+number of correctly classified trials in each subject; the second, *n*,
+encodes the total number of trials in each subject. The following steps
+outline how to apply the R package to this setting.
+
+\[TBC\]
+
 ## Literature
 
   - *Variational Bayesian mixed-effects inference for classification
