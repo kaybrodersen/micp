@@ -49,7 +49,7 @@ number of correctly classified trials in each subject; the second, *n*,
 encodes the total number of trials in each subject. The following steps
 outline how to apply the R package to this setting.
 
-Step 1: Note down observed classification outcomes
+### Step 1: Note down observed classification outcomes
 
 We begin by specifying two vectors that fully describe the observed
 outcomes of our classification analysis:
@@ -62,6 +62,18 @@ ns <- c(100, 100, 100, 100, 100)
 This says, for example, that 82 out of 100 trials were classified
 correctly in the first subject. There are 5 subjects in total in this
 example.
+
+### Step 2: inference
+
+We perform inference by typing:
+
+``` r
+stats <- micp.stats(ks, ns)
+```
+
+The above code performs full Bayesian inference using an efficient
+variational Bayes algorithm. The acronym in micp.stats() is short for
+*m*ixed-effects *i*nference on *c*lassification *p*erformance.
 
 \[TBC\]
 
