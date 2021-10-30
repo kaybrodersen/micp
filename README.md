@@ -49,6 +49,20 @@ number of correctly classified trials in each subject; the second, *n*,
 encodes the total number of trials in each subject. The following steps
 outline how to apply the R package to this setting.
 
+Step 1: Note down observed classification outcomes
+
+We begin by specifying two vectors that fully describe the observed
+outcomes of our classification analysis:
+
+``` r
+ks <- c(82,  75,  92,  85,  88)
+ns <- c(100, 100, 100, 100, 100)
+```
+
+This says, for example, that 82 out of 100 trials were classified
+correctly in the first subject. There are 5 subjects in total in this
+example.
+
 \[TBC\]
 
 ## Literature
