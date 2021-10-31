@@ -68,12 +68,31 @@ example.
 We perform inference by typing:
 
 ``` r
-stats <- micp.stats(ks, ns)
+stats <- micp::micp.stats(ks, ns)
 ```
 
 The above code performs full Bayesian inference using an efficient
 variational Bayes algorithm. The acronym in micp.stats() is short for
 *m*ixed-effects *i*nference on *c*lassification *p*erformance.
+
+We can obtain a summary of the results using:
+
+``` r
+micp::micp.stats(ks, ns)
+#> Variational Bayesian mixed-effects inference on classification
+#> accuracy
+#> 
+#> Population inference
+#>   posterior mean accuracy:    0.82 (p = 0)
+#>   posterior 95% interval:     [0.72, 0.9]
+#> 
+#> Subject-specific inference
+#>   posterior logit means:      1.52, 1.14, 2.27, 1.71, 1.93
+#>   posterior logit precisions: 16.62, 20.25, 10.39, 14.86, 13
+#> 
+#> Bayesian model comparison
+#>   free energy F: -20.28
+```
 
 \[TBC\]
 

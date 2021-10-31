@@ -33,7 +33,7 @@ The package is extremely easy to use and requires no prerequisites other than R.
 
 You can install the package from [GitHub](https://github.com/) with:
 
-``` r
+```r
 # install.packages("devtools")
 devtools::install_github("kaybrodersen/micp")
 ```
@@ -46,7 +46,7 @@ Consider a situation in which a classification algorithm (e.g., a logistic regre
 
 We begin by specifying two vectors that fully describe the observed outcomes of our classification analysis:
 
-```r
+```{r}
 ks <- c(82,  75,  92,  85,  88)
 ns <- c(100, 100, 100, 100, 100)
 ```
@@ -57,11 +57,17 @@ This says, for example, that 82 out of 100 trials were classified correctly in t
 
 We perform inference by typing:
 
-```r
-stats <- micp.stats(ks, ns)
+```{r}
+stats <- micp::micp.stats(ks, ns)
 ```
 
 The above code performs full Bayesian inference using an efficient variational Bayes algorithm. The acronym in micp.stats() is short for *m*ixed-effects *i*nference on *c*lassification *p*erformance.
+
+We can obtain a summary of the results using:
+
+```{r}
+micp::micp.stats(ks, ns)
+```
 
 [TBC]
 
