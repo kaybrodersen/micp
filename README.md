@@ -94,6 +94,14 @@ micp::micp.stats(ks, ns)
 #>   free energy F: -20.28
 ```
 
+This tells us, for example, that the population mean accuracy was 82%,
+with a 95% central credible interval of 72% … 90%. This is the interval
+in which we place 95% of our posterior belief, and we could use it for
+plotting error bars on the classification performance. The output also
+contains an approximation to the free energy \(F\), which is a lower
+bound to the marginal likelihood (or model evidence) and can be used to
+compare the current model to future alternatives.
+
 \[TBC\]
 
 ## Literature
