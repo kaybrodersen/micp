@@ -102,6 +102,16 @@ contains an approximation to the free energy \(F\), which is a lower
 bound to the marginal likelihood (or model evidence) and can be used to
 compare the current model to future alternatives.
 
+We can inspect the function output in more detail using:
+
+``` r
+stats <- micp::micp.stats(ks, ns)
+names(stats)
+#> [1] "mu"    "p"     "ci"    "q"     "model"
+stats$p
+#> [1] 2.755991e-07
+```
+
 \[TBC\]
 
 ## Literature
