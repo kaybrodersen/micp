@@ -35,6 +35,22 @@ You can install the package from [GitHub](https://github.com/) with:
 ``` r
 # install.packages("devtools")
 devtools::install_github("kaybrodersen/micp")
+#> Downloading GitHub repo kaybrodersen/micp@HEAD
+#> 
+#>      checking for file ‘/private/var/folders/wg/9pl8v1855n16fmcfd_dkg3c00000gn/T/RtmpAeAci5/remotes58562f4a9eee/kaybrodersen-micp-bd6a979/DESCRIPTION’ ...  ✓  checking for file ‘/private/var/folders/wg/9pl8v1855n16fmcfd_dkg3c00000gn/T/RtmpAeAci5/remotes58562f4a9eee/kaybrodersen-micp-bd6a979/DESCRIPTION’
+#>   ─  preparing ‘micp’:
+#>      checking DESCRIPTION meta-information ...  ✓  checking DESCRIPTION meta-information
+#>   ─  checking for LF line-endings in source and make files and shell scripts
+#>   ─  checking for empty or unneeded directories
+#>   ─  building ‘micp_1.1.0.tar.gz’
+#>      
+#> 
+```
+
+Then load the package with:
+
+``` r
+library(micp)
 ```
 
 ## Example 1: Inference on the accuracy
@@ -68,7 +84,7 @@ example.
 We perform inference by typing:
 
 ``` r
-stats <- micp::micp.stats(ks, ns)
+stats <- micp.stats(ks, ns)
 ```
 
 The above code performs full Bayesian inference using an efficient
@@ -78,7 +94,7 @@ variational Bayes algorithm. The acronym in micp.stats() is short for
 We can obtain a summary of the results using:
 
 ``` r
-micp::micp.stats(ks, ns)
+micp.stats(ks, ns)
 #> Variational Bayesian mixed-effects inference on classification
 #> accuracy
 #> 
@@ -105,7 +121,7 @@ compare the current model to future alternatives.
 We can inspect the function output in more detail using:
 
 ``` r
-stats <- micp::micp.stats(ks, ns)
+stats <- micp.stats(ks, ns)
 names(stats)
 #> [1] "mu"    "p"     "ci"    "q"     "model"
 stats$p
@@ -117,6 +133,12 @@ supremely confident that the classifier operated above chance at the
 group level. Put differently, the fact that p is approximately 0 means
 that we are approximately 100% sure that the population mean accuracy is
 above chance.
+
+To display all details about the function micp.stats(), type:
+
+``` r
+?micp.stats
+```
 
 \[TBC\]
 
