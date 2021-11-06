@@ -98,8 +98,8 @@ This tells us, for example, that the population mean accuracy was 82%,
 with a 95% central credible interval of 72% … 90%. This is the interval
 in which we place 95% of our posterior belief, and we could use it for
 plotting error bars on the classification performance. The output also
-contains an approximation to the free energy \(F\), which is a lower
-bound to the marginal likelihood (or model evidence) and can be used to
+contains an approximation to the free energy *F*, which is a lower bound
+to the marginal likelihood (or model evidence) and can be used to
 compare the current model to future alternatives.
 
 We can inspect the function output in more detail using:
@@ -112,32 +112,38 @@ stats$p
 #> [1] 2.755991e-07
 ```
 
+With an infraliminal probability of *p* ≈ 2.8 × 10<sup>−7</sup>, we are
+supremely confident that the classifier operated above chance at the
+group level. Put differently, the fact that p is approximately 0 means
+that we are approximately 100% sure that the population mean accuracy is
+above chance.
+
 \[TBC\]
 
 ## Literature
 
-  - *Variational Bayesian mixed-effects inference for classification
+-   *Variational Bayesian mixed-effects inference for classification
     studies.* K.H. Brodersen, J. Daunizeau, C. Mathys, J.R. Chumbley,
     J.M. Buhmann, & K.E. Stephan (2013). *NeuroImage*, 76, 345-361
     ([PDF](https://kaybrodersen.github.io/publications/Brodersen_2013_NeuroImage.pdf)).
 
-  - *Bayesian mixed-effects inference on classification performance in
-    hierarchical data sets.* K.H. Brodersen, C. Mathys, J.R. Chumbley,
-    J. Daunizeau, C.S. Ong, J.M. Buhmann, & K.E. Stephan (2012).
-    *Journal of Machine Learning Research*, 13, 3133-3176
+-   *Bayesian mixed-effects inference on classification performance in
+    hierarchical data sets.* K.H. Brodersen, C. Mathys, J.R.
+    Chumbley, J. Daunizeau, C.S. Ong, J.M. Buhmann, & K.E. Stephan
+    (2012). *Journal of Machine Learning Research*, 13, 3133-3176
     ([PDF](https://kaybrodersen.github.io/publications/Brodersen_2012_JMLR.pdf)).
 
-  - *Mixed-effects inference on classification performance in group
+-   *Mixed-effects inference on classification performance in group
     studies.* K.H. Brodersen, J.R. Chumbley, C. Mathys, J. Daunizeau,
     J.M. Buhmann, K.E. Stephan (2011) *HBM*, Quebec City, Canada
     ([Poster](https://kaybrodersen.github.io/publications/Brodersen_2011d_HBM.pdf)).
 
-  - *Variational Bayesian mixed-effects inference for classification
+-   *Variational Bayesian mixed-effects inference for classification
     studies.* K.H. Brodersen, J. Daunizeau, C. Mathys, J.R. Chumbley,
     J.M. Buhmann, K.E. Stephan (2012) *HBM*, Beijing, China
     ([Poster](https://kaybrodersen.github.io/publications/Brodersen_2012b_HBM.pdf)).
 
-  - *The balanced accuracy and its posterior distribution.* K.H.
+-   *The balanced accuracy and its posterior distribution.* K.H.
     Brodersen, C.S. Ong, J.M. Buhmann, & K.E. Stephan (2010). *ICPR*,
     3121-3124
     ([PDF](https://kaybrodersen.github.io/publications/Brodersen_2010b_ICPR.pdf)).

@@ -79,6 +79,8 @@ names(stats)
 stats$p
 ```
 
+With an infraliminal probability of $p ≈ 2.8×10^{-7}$, we are supremely confident that the classifier operated above chance at the group level. Put differently, the fact that p is approximately 0 means that we are approximately 100% sure that the population mean accuracy is above chance.
+
 [TBC]
 
 ## Literature
