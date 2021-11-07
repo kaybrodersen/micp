@@ -35,16 +35,8 @@ You can install the package from [GitHub](https://github.com/) with:
 ``` r
 # install.packages("devtools")
 devtools::install_github("kaybrodersen/micp")
-#> Downloading GitHub repo kaybrodersen/micp@HEAD
-#> 
-#>      checking for file ‘/private/var/folders/wg/9pl8v1855n16fmcfd_dkg3c00000gn/T/RtmpAeAci5/remotes58562f4a9eee/kaybrodersen-micp-bd6a979/DESCRIPTION’ ...  ✓  checking for file ‘/private/var/folders/wg/9pl8v1855n16fmcfd_dkg3c00000gn/T/RtmpAeAci5/remotes58562f4a9eee/kaybrodersen-micp-bd6a979/DESCRIPTION’
-#>   ─  preparing ‘micp’:
-#>      checking DESCRIPTION meta-information ...  ✓  checking DESCRIPTION meta-information
-#>   ─  checking for LF line-endings in source and make files and shell scripts
-#>   ─  checking for empty or unneeded directories
-#>   ─  building ‘micp_1.1.0.tar.gz’
-#>      
-#> 
+#> Skipping install of 'micp' from a github remote, the SHA1 (ed5eb079) has not changed since last install.
+#>   Use `force = TRUE` to force installation
 ```
 
 Then load the package with:
@@ -139,6 +131,16 @@ To display all details about the function micp.stats(), type:
 ``` r
 ?micp.stats
 ```
+
+## Example 2: Inference on the balanced accuracy
+
+In many real-world problems, the data used for classification are not
+perfectly balanced. This means that there are more examples from one
+class then from the other. Denoting the two classes as the *positive*
+and the *negative* class, respectively, there might for instance be more
+positive than negative examples in the data. When the data are
+imbalanced, the accuracy is a misleading performance measure and should
+be replaced by the balanced accuracy.
 
 \[TBC\]
 

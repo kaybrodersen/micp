@@ -93,6 +93,10 @@ To display all details about the function micp.stats(), type:
 ?micp.stats
 ```
 
+## Example 2: Inference on the balanced accuracy
+
+In many real-world problems, the data used for classification are not perfectly balanced. This means that there are more examples from one class then from the other. Denoting the two classes as the *positive* and the *negative* class, respectively, there might for instance be more positive than negative examples in the data. When the data are imbalanced, the accuracy is a misleading performance measure and should be replaced by the balanced accuracy.
+
 [TBC]
 
 ## Literature
