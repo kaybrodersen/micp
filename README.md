@@ -35,8 +35,16 @@ You can install the package from [GitHub](https://github.com/) with:
 ``` r
 # install.packages("devtools")
 devtools::install_github("kaybrodersen/micp")
-#> Skipping install of 'micp' from a github remote, the SHA1 (8953ef2c) has not changed since last install.
-#>   Use `force = TRUE` to force installation
+#> Downloading GitHub repo kaybrodersen/micp@HEAD
+#> 
+#>      checking for file ‘/private/var/folders/wg/9pl8v1855n16fmcfd_dkg3c00000gn/T/RtmpkGABKH/remotes6f1c15991a48/kaybrodersen-micp-57fdde1/DESCRIPTION’ ...  ✓  checking for file ‘/private/var/folders/wg/9pl8v1855n16fmcfd_dkg3c00000gn/T/RtmpkGABKH/remotes6f1c15991a48/kaybrodersen-micp-57fdde1/DESCRIPTION’
+#>   ─  preparing ‘micp’:
+#>      checking DESCRIPTION meta-information ...  ✓  checking DESCRIPTION meta-information
+#>   ─  checking for LF line-endings in source and make files and shell scripts
+#>   ─  checking for empty or unneeded directories
+#>   ─  building ‘micp_1.1.0.tar.gz’
+#>      
+#> 
 ```
 
 Then load the package with:
@@ -165,6 +173,12 @@ ns <- rbind(
   c(55, 49, 80, 54, 32)
 )
 ```
+
+Here, we recorded that in the first subject, there were 45 examples with
+true label ‘+1’, out of which 40 were classified correctly. 55 examples
+had a ‘-1’ label, and 48 of these were classified correctly. Note that
+in the above example the last subject has fewer trials than the rest;
+mixed-effects inference will correctly account for this.
 
 \[TBC\]
 
