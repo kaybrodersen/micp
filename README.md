@@ -35,7 +35,7 @@ You can install the package from [GitHub](https://github.com/) with:
 ``` r
 # install.packages("devtools")
 devtools::install_github("kaybrodersen/micp")
-#> Skipping install of 'micp' from a github remote, the SHA1 (ed5eb079) has not changed since last install.
+#> Skipping install of 'micp' from a github remote, the SHA1 (8953ef2c) has not changed since last install.
 #>   Use `force = TRUE` to force installation
 ```
 
@@ -141,6 +141,11 @@ and the *negative* class, respectively, there might for instance be more
 positive than negative examples in the data. When the data are
 imbalanced, the accuracy is a misleading performance measure and should
 be replaced by the balanced accuracy.
+
+To infer on the balanced accuracy, the software needs to know how many
+positive and negative trials were classified correctly (rather than just
+an overall number of correctly classified trials, as was sufficient in
+Example 1).
 
 \[TBC\]
 
