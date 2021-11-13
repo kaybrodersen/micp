@@ -155,6 +155,17 @@ information separately for positive and negative examples. Thus, *k* and
 *n* are now matrices. The first row refers to positive examples, the
 second row to negative examples.
 
+``` r
+ks <- rbind(
+  c(40, 44, 18, 42, 44),
+  c(48, 41, 65, 49, 32)
+)
+ns <- rbind(
+  c(45, 51, 20, 46, 48),
+  c(55, 49, 80, 54, 32)
+)
+```
+
 \[TBC\]
 
 ## Literature
