@@ -147,6 +147,14 @@ positive and negative trials were classified correctly (rather than just
 an overall number of correctly classified trials, as was sufficient in
 Example 1).
 
+### Step 1: Note down observed class-specific classification outcomes
+
+We begin by noting down how many trials were classified correctly in
+each subject. In contrast to Example 1, we are now providing this
+information separately for positive and negative examples. Thus, *k* and
+*n* are now matrices. The first row refers to positive examples, the
+second row to negative examples.
+
 \[TBC\]
 
 ## Literature
