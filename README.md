@@ -37,7 +37,7 @@ You can install the package from [GitHub](https://github.com/) with:
 devtools::install_github("kaybrodersen/micp")
 #> Downloading GitHub repo kaybrodersen/micp@HEAD
 #> 
-#>      checking for file ‘/private/var/folders/wg/9pl8v1855n16fmcfd_dkg3c00000gn/T/RtmpnbLrTF/remotesb17d3ad5850a/kaybrodersen-micp-2e02a0e/DESCRIPTION’ ...  ✓  checking for file ‘/private/var/folders/wg/9pl8v1855n16fmcfd_dkg3c00000gn/T/RtmpnbLrTF/remotesb17d3ad5850a/kaybrodersen-micp-2e02a0e/DESCRIPTION’
+#>      checking for file ‘/private/var/folders/wg/9pl8v1855n16fmcfd_dkg3c00000gn/T/RtmpXD0gYw/remotesb2667a72cee1/kaybrodersen-micp-63c79ee/DESCRIPTION’ ...  ✓  checking for file ‘/private/var/folders/wg/9pl8v1855n16fmcfd_dkg3c00000gn/T/RtmpXD0gYw/remotesb2667a72cee1/kaybrodersen-micp-63c79ee/DESCRIPTION’
 #>   ─  preparing ‘micp’:
 #>      checking DESCRIPTION meta-information ...  ✓  checking DESCRIPTION meta-information
 #>   ─  checking for LF line-endings in source and make files and shell scripts
@@ -186,6 +186,22 @@ Inference is as straightforward as before. Since *k* and *n* are now
 matrices (as opposed to row vectors as in Example 1), the code
 automatically switches to an algorithm for inference on the balanced
 accuracy.
+
+``` r
+micp.stats(ks, ns)
+#> Variational Bayesian mixed-effects inference on the balanced
+#> classification accuracy
+#> 
+#> Population inference
+#>   posterior mean balanced accuracy:  0.86 (p = 0)
+#>   posterior 95% interval:            [0.79, 0.91]
+#> 
+#> Subject-specific inference
+#>   posterior balanced accuracy means: 0.87, 0.85, 0.84, 0.89, 0.92
+#> 
+#> Bayesian model comparison
+#>   free energy F: -32.82
+```
 
 \[TBC\]
 
