@@ -37,7 +37,7 @@ You can install the package from [GitHub](https://github.com/) with:
 devtools::install_github("kaybrodersen/micp")
 #> Downloading GitHub repo kaybrodersen/micp@HEAD
 #> 
-#>      checking for file ‘/private/var/folders/wg/9pl8v1855n16fmcfd_dkg3c00000gn/T/RtmpkGABKH/remotes6f1c15991a48/kaybrodersen-micp-57fdde1/DESCRIPTION’ ...  ✓  checking for file ‘/private/var/folders/wg/9pl8v1855n16fmcfd_dkg3c00000gn/T/RtmpkGABKH/remotes6f1c15991a48/kaybrodersen-micp-57fdde1/DESCRIPTION’
+#>      checking for file ‘/private/var/folders/wg/9pl8v1855n16fmcfd_dkg3c00000gn/T/RtmpnbLrTF/remotesb17d3ad5850a/kaybrodersen-micp-2e02a0e/DESCRIPTION’ ...  ✓  checking for file ‘/private/var/folders/wg/9pl8v1855n16fmcfd_dkg3c00000gn/T/RtmpnbLrTF/remotesb17d3ad5850a/kaybrodersen-micp-2e02a0e/DESCRIPTION’
 #>   ─  preparing ‘micp’:
 #>      checking DESCRIPTION meta-information ...  ✓  checking DESCRIPTION meta-information
 #>   ─  checking for LF line-endings in source and make files and shell scripts
@@ -179,6 +179,13 @@ true label ‘+1’, out of which 40 were classified correctly. 55 examples
 had a ‘-1’ label, and 48 of these were classified correctly. Note that
 in the above example the last subject has fewer trials than the rest;
 mixed-effects inference will correctly account for this.
+
+### Step 2: Inference
+
+Inference is as straightforward as before. Since *k* and *n* are now
+matrices (as opposed to row vectors as in Example 1), the code
+automatically switches to an algorithm for inference on the balanced
+accuracy.
 
 \[TBC\]
 
