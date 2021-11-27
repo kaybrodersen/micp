@@ -37,7 +37,7 @@ You can install the package from [GitHub](https://github.com/) with:
 devtools::install_github("kaybrodersen/micp")
 #> Downloading GitHub repo kaybrodersen/micp@HEAD
 #> 
-#>      checking for file ‘/private/var/folders/wg/9pl8v1855n16fmcfd_dkg3c00000gn/T/RtmpXD0gYw/remotesb2667a72cee1/kaybrodersen-micp-63c79ee/DESCRIPTION’ ...  ✓  checking for file ‘/private/var/folders/wg/9pl8v1855n16fmcfd_dkg3c00000gn/T/RtmpXD0gYw/remotesb2667a72cee1/kaybrodersen-micp-63c79ee/DESCRIPTION’
+#>      checking for file ‘/private/var/folders/wg/9pl8v1855n16fmcfd_dkg3c00000gn/T/RtmpAiLb1b/remotesda596e7000e0/kaybrodersen-micp-4dd9dbb/DESCRIPTION’ ...  ✓  checking for file ‘/private/var/folders/wg/9pl8v1855n16fmcfd_dkg3c00000gn/T/RtmpAiLb1b/remotesda596e7000e0/kaybrodersen-micp-4dd9dbb/DESCRIPTION’
 #>   ─  preparing ‘micp’:
 #>      checking DESCRIPTION meta-information ...  ✓  checking DESCRIPTION meta-information
 #>   ─  checking for LF line-endings in source and make files and shell scripts
@@ -203,7 +203,10 @@ micp.stats(ks, ns)
 #>   free energy F: -32.82
 ```
 
-\[TBC\]
+This tells us that the posterior mean of the population mean balanced
+accuracy is 86%. Is this better than chance? Yes, with a conviction of 1
+– 0.000 = 100%. If we wanted to plot error bars, we would use the limits
+of the central 95% credible interval, which is \[79%, 91%\].
 
 ## Literature
 

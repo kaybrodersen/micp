@@ -124,7 +124,7 @@ Inference is as straightforward as before. Since $k$ and $n$ are now matrices (a
 micp.stats(ks, ns)
 ```
 
-[TBC]
+This tells us that the posterior mean of the population mean balanced accuracy is 86%. Is this better than chance? Yes, with a conviction of 1 – 0.000 = 100%. If we wanted to plot error bars, we would use the limits of the central 95% credible interval, which is [79%, 91%].
 
 ## Literature
 
