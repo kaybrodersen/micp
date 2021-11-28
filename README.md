@@ -35,16 +35,6 @@ You can install the package from [GitHub](https://github.com/) with:
 ``` r
 # install.packages("devtools")
 devtools::install_github("kaybrodersen/micp")
-#> Downloading GitHub repo kaybrodersen/micp@HEAD
-#> 
-#>      checking for file ‘/private/var/folders/wg/9pl8v1855n16fmcfd_dkg3c00000gn/T/RtmpAiLb1b/remotesda596e7000e0/kaybrodersen-micp-4dd9dbb/DESCRIPTION’ ...  ✓  checking for file ‘/private/var/folders/wg/9pl8v1855n16fmcfd_dkg3c00000gn/T/RtmpAiLb1b/remotesda596e7000e0/kaybrodersen-micp-4dd9dbb/DESCRIPTION’
-#>   ─  preparing ‘micp’:
-#>      checking DESCRIPTION meta-information ...  ✓  checking DESCRIPTION meta-information
-#>   ─  checking for LF line-endings in source and make files and shell scripts
-#>   ─  checking for empty or unneeded directories
-#>   ─  building ‘micp_1.1.0.tar.gz’
-#>      
-#> 
 ```
 
 Then load the package with:
@@ -111,11 +101,11 @@ micp.stats(ks, ns)
 ```
 
 This tells us, for example, that the population mean accuracy was 82%,
-with a 95% central credible interval of 72% … 90%. This is the interval
-in which we place 95% of our posterior belief, and we could use it for
-plotting error bars on the classification performance. The output also
-contains an approximation to the free energy *F*, which is a lower bound
-to the marginal likelihood (or model evidence) and can be used to
+with a 95% central credible interval of \[72%, 90%\]. This is the
+interval in which we place 95% of our posterior belief, and we could use
+it for plotting error bars on the classification performance. The output
+also contains an approximation to the free energy *F*, which is a lower
+bound to the marginal likelihood (or model evidence) and can be used to
 compare the current model to future alternatives.
 
 We can inspect the function output in more detail using:
@@ -130,11 +120,11 @@ stats$p
 
 With an infraliminal probability of *p* ≈ 2.8 × 10<sup>−7</sup>, we are
 supremely confident that the classifier operated above chance at the
-group level. Put differently, the fact that p is approximately 0 means
+group level. Put differently, the fact that *p* is approximately 0 means
 that we are approximately 100% sure that the population mean accuracy is
 above chance.
 
-To display all details about the function micp.stats(), type:
+To display all details about the function `micp.stats()`, type:
 
 ``` r
 ?micp.stats
@@ -143,17 +133,21 @@ To display all details about the function micp.stats(), type:
 ## Example 2: Inference on the balanced accuracy
 
 In many real-world problems, the data used for classification are not
-perfectly balanced. This means that there are more examples from one
-class then from the other. Denoting the two classes as the *positive*
-and the *negative* class, respectively, there might for instance be more
+perfectly balanced, in that there are more examples from one class than
+from the other. Denoting the two classes as the *positive* and the
+*negative* class, respectively, there might for instance be more
 positive than negative examples in the data. When the data are
-imbalanced, the accuracy is a misleading performance measure and should
-be replaced by the balanced accuracy.
+imbalanced, the accuracy can be a misleading performance measure since
+purely guessing can get you an acccuracy above 50%. One solution is to
+replace the accuracy by the [balanced
+accuracy](https://en.wikipedia.org/wiki/Precision_and_recall#Imbalanced_data).
+The balanced accuracy is the average of the individual accuracies on the
+two classes, and its expected value drops to 50% when the classifier is
+just guessing, irrespective of how imbalanced the data might be.
 
-To infer on the balanced accuracy, the software needs to know how many
-positive and negative trials were classified correctly (rather than just
-an overall number of correctly classified trials, as was sufficient in
-Example 1).
+To infer on the balanced accuracy, we need to know how many positive and
+negative trials were classified correctly (rather than just an overall
+number of correctly classified trials, as was sufficient in Example 1).
 
 ### Step 1: Note down observed class-specific classification outcomes
 
