@@ -22,6 +22,7 @@
 #' of the population accuracy in the conventional [0..1] space, use:
 #' `logitnmean(q$mu.mu, 1/sqrt(q$eta.mu))`
 #'
+#' @import assertthat
 #' @export
 #'
 #' @examples
@@ -110,6 +111,7 @@ vbicp.unb <- function(ks, ns, verbose = NULL) {
 #' @param q List of approximate posterior moments.
 #'
 #' @return A revised `q` with updated `mu.rho` and `eta.rho` elements.
+#' @NoRd
 update.rho <- function(data, prior, q) {
   # Gauss-Newton scheme to find the mode.
   # Define Jacobian and Hessian.
@@ -147,6 +149,7 @@ update.rho <- function(data, prior, q) {
 #' @param q List of approximate posterior moments.
 #'
 #' @return A revised `q` with updated `mu.mu` and `eta.mu` elements.
+#' @NoRd
 update.mu <- function(data, prior, q) {
   q$mu.mu <- (prior$mu.0 * prior$eta.0 +
              q$a.lambda * q$b.lambda *sum(q$mu.rho)) /
@@ -162,6 +165,7 @@ update.mu <- function(data, prior, q) {
 #' @param q List of approximate posterior moments.
 #'
 #' @return A revised `q` with updated `a.lambda` and `b.lambda` elements.
+#' @NoRd
 update.lambda <- function(data, prior, q) {
   q$a.lambda <- prior$a.0 + data$m/2
   q$b.lambda <- 1/(1/prior$b.0 + 1/2 * sum((q$mu.rho - q$mu.mu)^2 +
@@ -176,6 +180,7 @@ update.lambda <- function(data, prior, q) {
 #' @param q List of approximate posterior moments.
 #'
 #' @return A revised `q` with an updated `F` field.
+#' @NoRd
 update.free.energy <- function(data, prior, q) {
   q$F <- 1/2*(log(prior$eta.0) - log(q$eta.mu)) -
          prior$eta.0/2*((q$mu.mu-prior$mu.0)^2 + 1/q$eta.mu) + q$a.lambda -

@@ -12,6 +12,7 @@
 #' @param sigma2 Scale parameter of the second distribution.
 #'
 #' @return Value of the cumulative distribution function.
+#' @import assertthat
 #' @export
 #'
 #' @examples

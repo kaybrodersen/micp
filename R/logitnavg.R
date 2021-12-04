@@ -11,6 +11,8 @@
 #' @param sigma2 Scale parameter of the second distribution.
 #'
 #' @return Value of the cumulative distribution function.
+#' @import assertthat
+#'
 #' @export
 #'
 #' @examples
@@ -43,6 +45,7 @@ logitnavgcdf <- function(x, mu1, sigma1, mu2, sigma2) {
 #'
 #' @return Value of the inverse cumulative distribution function of the average
 #' of two logit-normal variables.
+#' @import assertthat
 #' @export
 #'
 #' @examples

@@ -22,6 +22,7 @@ safesigm <- function(a) {
 #' @param y Function values.
 #'
 #' @return
+#' @import assertthat
 #'
 #' @NoRd
 trapz <- function(x, y) {
@@ -40,6 +41,7 @@ trapz <- function(x, y) {
 #' @param n Number of horizontal replications.
 #'
 #' @return Replicated matrix.
+#' @import assertthat
 #' @export
 repmat <- function(X, m = 1L, n = 1L) {
   if (is.vector(X)) {

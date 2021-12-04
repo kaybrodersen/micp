@@ -158,11 +158,10 @@ logitnmean <- Vectorize(.logitnmean)
 #' @return A vector of values containing the density of the convolution of two
 #' logit-normal distributions, evaluated on a grid of values between 0 and 2 at
 #' the specified resolution.
-#' @export
 #'
 #' @import assertthat
 #'
-#' @examples
+#' @NoRd
 logitnconv <- function(res, mu1, sigma1, mu2, sigma2) {
   assert_that(is.scalar(res), is.numeric(res), !is.na(res), res > 0, res < 1)
   assert_that(is.scalar(mu1), is.scalar(sigma1))

@@ -112,6 +112,7 @@ summary.micp <- function(stats, ...) {
 #' @param ... Optional additional arguments (currently unused).
 #'
 #' @return The printed string.
+#' @import assertthat
 #' @export
 #'
 #' @examples
