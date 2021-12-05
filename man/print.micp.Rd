@@ -2,7 +2,7 @@
 % Please edit documentation in R/micp.stats.R
 \name{print.micp}
 \alias{print.micp}
-\title{Prints a summary of the inference.}
+\title{Prints a summary of the inference}
 \usage{
 \method{print}{micp}(x, ...)
 }
@@ -15,7 +15,7 @@
 The printed string.
 }
 \description{
-Prints a summary of the inference.
+Prints a summary of the inference
 }
 \examples{
   ks <- c(19, 41, 15, 39, 39)
