@@ -7,9 +7,7 @@
 #' @param a Numeric scalar or vector.
 #'
 #' @return Numeric scalar or vector.
-#' @export
-#'
-#' @NoRd
+#' @noRd
 safesigm <- function(a) {
   b = 1 / (1 + exp(-a))
   b[b < 1e-8] <- 1e-8
@@ -23,8 +21,7 @@ safesigm <- function(a) {
 #'
 #' @return
 #' @import assertthat
-#'
-#' @NoRd
+#' @noRd
 trapz <- function(x, y) {
   assert_that(is.numeric(x), is.vector(x))
   assert_that(is.numeric(y), is.vector(y))

@@ -14,8 +14,6 @@
 #' @return Value of the cumulative distribution function.
 #' @import assertthat
 #' @export
-#'
-#' @examples
 logitnsumcdf <- function(x, mu1, sigma1, mu2, sigma2) {
   assert_that(is.vector(x))
   assert_that(all(vapply(x, function(x) is.numeric(x) | is.na(x), TRUE)),

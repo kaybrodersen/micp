@@ -5,10 +5,8 @@
 #' Logit transform
 #'
 #' @param b Numeric vector.
-#'
 #' @return Logit transform of the input vector.
-#'
-#' @NoRd
+#' @noRd
 logit <- function(x) {
   y <- x
   y[y < 0 | y > 1] <- NA_real_
@@ -20,10 +18,8 @@ logit <- function(x) {
 #'
 #' @param u
 #' @param v
-#'
 #' @return Value of the convolution.
-#'
-#' @NoRd
+#' @noRd
 conv <- function(u, v) {
   return(stats::convolve(u, rev(v), type = "open"))
 }
@@ -31,10 +27,8 @@ conv <- function(u, v) {
 #' Error function.
 #'
 #' @param x Real-valued scalar or vector.
-#'
 #' @return Value of the error function (see also ?pnorm).
-#'
-#' @NoRd
+#' @noRd
 erf <- function(x) {
   return(2 * stats::pnorm(x * sqrt(2)) - 1)
 }
@@ -46,9 +40,9 @@ erf <- function(x) {
 #' @param sigma Scale parameter.
 #'
 #' @return Density of the logit-normal distribution.
-#' @export
 #'
 #' @import assertthat
+#' @export
 #'
 #' @examples
 #' logitnpdf(0.5, 1, 2)
@@ -69,9 +63,9 @@ logitnpdf <- function(x, mu, sigma) {
 #' @param sigma Scale parameter.
 #'
 #' @return Value of the logit-normal cumulative distribution function.
-#' @export
 #'
 #' @import assertthat
+#' @export
 #'
 #' @examples
 #' logitncdf(0.5, 1, 2)
@@ -110,9 +104,9 @@ logitncdf <- function(x, mu, sigma) {
 #' @param sigma Scale parameter.
 #'
 #' @return Value of the logit-normal inverse cumulative distribution function.
-#' @export
 #'
 #' @import assertthat
+#' @export
 #'
 #' @examples
 #' logitninv(0.5, 1, 2)
@@ -138,9 +132,9 @@ logitninv <- Vectorize(.logitninv)
 #' @param sigma Scale parameter.
 #'
 #' @return Expectation.
-#' @export
 #'
 #' @import assertthat
+#' @export
 #'
 #' @examples
 #' logitnmean(0, 0.6)  # 0.5
@@ -160,8 +154,7 @@ logitnmean <- Vectorize(.logitnmean)
 #' the specified resolution.
 #'
 #' @import assertthat
-#'
-#' @NoRd
+#' @noRd
 logitnconv <- function(res, mu1, sigma1, mu2, sigma2) {
   assert_that(is.scalar(res), is.numeric(res), !is.na(res), res > 0, res < 1)
   assert_that(is.scalar(mu1), is.scalar(sigma1))

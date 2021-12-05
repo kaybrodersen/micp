@@ -106,7 +106,7 @@ summary.micp <- function(stats, ...) {
   print(stats, ...)
 }
 
-#' Prints a summary of the inference.
+#' Prints a summary of the inference
 #'
 #' @param x An object returned by `micp.stats()`.
 #' @param ... Optional additional arguments (currently unused).

@@ -12,10 +12,7 @@
 #'
 #' @return Value of the cumulative distribution function.
 #' @import assertthat
-#'
 #' @export
-#'
-#' @examples
 logitnavgcdf <- function(x, mu1, sigma1, mu2, sigma2) {
   assert_that(is.vector(x))
   assert_that(all(vapply(x, function(x) is.numeric(x) | is.na(x), TRUE)),
@@ -47,8 +44,6 @@ logitnavgcdf <- function(x, mu1, sigma1, mu2, sigma2) {
 #' of two logit-normal variables.
 #' @import assertthat
 #' @export
-#'
-#' @examples
 logitnavginv <- Vectorize(.logitnavginv)
 
 .logitnavgmean <- function(mu1, sigma1, mu2, sigma2) {
@@ -68,6 +63,4 @@ logitnavginv <- Vectorize(.logitnavginv)
 #'
 #' @return Expectation of the average of two logit-normal variables.
 #' @export
-#'
-#' @examples
 logitnavgmean <- Vectorize(.logitnavgmean)
