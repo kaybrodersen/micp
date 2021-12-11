@@ -36,21 +36,6 @@ A list with the following fields: mu, p, ci, and stats.
 \description{
 Mixed-effects inference on classification performance
 }
-\note{
-Literature:
-  K.H. Brodersen, J. Daunizeau, C. Mathys, J.R. Chumbley, J.M. Buhmann, &
-  K.E. Stephan (2013). Variational Bayesian mixed-effects inference for
-  classification studies. NeuroImage (in press).
-  doi:10.1016/j.neuroimage.2013.03.008.
-
-  K.H. Brodersen, C. Mathys, J.R. Chumbley, J. Daunizeau, C.S. Ong, J.M.
-  Buhmann, & K.E. Stephan (2012). Bayesian mixed-effects inference on
-  classification performance in hierarchical datsets. Journal of Machine
-  Learning Research, 13, 3133-3176.
-
-  K.H. Brodersen, C.S. Ong, J.M. Buhmann, & K.E. Stephan (2010). The balanced
-  accuracy and its posterior distribution. ICPR, 3121-3124.
-}
 \examples{
   # Accuracy:
   ks <- c(19, 41, 15, 39, 39)
@@ -63,6 +48,20 @@ Literature:
   ns <- rbind(c(45, 51, 20, 46, 58), c(55, 49, 80, 54, 42))
   results2 <- micp::micp.stats(ks, ns)
   print(results2)
+}
+\references{
+K.H. Brodersen, J. Daunizeau, C. Mathys, J.R. Chumbley, J.M. Buhmann, &
+  K.E. Stephan (2013). Variational Bayesian mixed-effects inference for
+  classification studies. NeuroImage (in press).
+  doi:10.1016/j.neuroimage.2013.03.008.
+
+  K.H. Brodersen, C. Mathys, J.R. Chumbley, J. Daunizeau, C.S. Ong, J.M.
+  Buhmann, & K.E. Stephan (2012). Bayesian mixed-effects inference on
+  classification performance in hierarchical datsets. Journal of Machine
+  Learning Research, 13, 3133-3176.
+
+  K.H. Brodersen, C.S. Ong, J.M. Buhmann, & K.E. Stephan (2010). The balanced
+  accuracy and its posterior distribution. ICPR, 3121-3124.
 }
 \author{
 Kay H. Brodersen, ETH Zurich

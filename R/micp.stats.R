@@ -26,7 +26,8 @@
 #'     individual inference functions for details.
 #'
 #' @author Kay H. Brodersen, ETH Zurich
-#' @note Literature:
+#' @references
+#'
 #'   K.H. Brodersen, J. Daunizeau, C. Mathys, J.R. Chumbley, J.M. Buhmann, &
 #'   K.E. Stephan (2013). Variational Bayesian mixed-effects inference for
 #'   classification studies. NeuroImage (in press).
