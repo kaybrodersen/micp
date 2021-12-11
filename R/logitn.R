@@ -16,8 +16,8 @@ logit <- function(x) {
 
 #' Equivalent of the MATLAB conv() function for discrete convolution
 #'
-#' @param u
-#' @param v
+#' @param u First numeric sequence.
+#' @param v Second numeric sequence.
 #' @return Value of the convolution.
 #' @noRd
 conv <- function(u, v) {
