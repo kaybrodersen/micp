@@ -16,11 +16,17 @@ vbicp.unb(ks, ns, verbose = NULL)
 }
 \value{
 A list of posterior moments:
+
   mu_mu:    mean of the posterior population mean effect
+
   eta_mu:   precision of the posterior population mean effect
+
   a_lamba:  shape parameter of the posterior precision population effect
+
   b_lambda: scale parameter of the posterior precision population effect
+
   mu_rho:   vector of means of the posterior subject-specific effects
+
   eta_rho:  vector of precisions of posterior subject-specific effects
 }
 \description{
@@ -43,4 +49,7 @@ K.H. Brodersen, J. Daunizeau, C. Mathys, J.R. Chumbley, J.M. Buhmann, &
   classification studies. NeuroImage (2013).
   doi:10.1016/j.neuroimage.2013.03.008.
   https://kaybrodersen.github.io/publications/Brodersen_2013_NeuroImage.pdf
+}
+\author{
+Kay H. Brodersen, ETH Zurich
 }

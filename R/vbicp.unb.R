@@ -1,7 +1,3 @@
-# Variational Bayesian mixed-effects on classification performance.
-#
-# Author: Kay H. Brodersen, ETH Zurich
-
 #' Variational Bayesian approximate mixed-effects inference on classification
 #' accuracy using the normal-binomial model
 #'
@@ -10,11 +6,17 @@
 #' @param verbose Level of output verbosity. Deprecated parameter.
 #'
 #' @return A list of posterior moments:
+#'
 #'   mu_mu:    mean of the posterior population mean effect
+#'
 #'   eta_mu:   precision of the posterior population mean effect
+#'
 #'   a_lamba:  shape parameter of the posterior precision population effect
+#'
 #'   b_lambda: scale parameter of the posterior precision population effect
+#'
 #'   mu_rho:   vector of means of the posterior subject-specific effects
+#'
 #'   eta_rho:  vector of precisions of posterior subject-specific effects
 #'
 #' @details The return 'effects' represent accuracies in logit space, which
@@ -28,6 +30,7 @@
 #' @examples
 #' q <- vbicp.unb(c(6, 8, 5), c(10, 10, 10))
 #'
+#' @author Kay H. Brodersen, ETH Zurich
 #' @references
 #'   K.H. Brodersen, J. Daunizeau, C. Mathys, J.R. Chumbley, J.M. Buhmann, &
 #'   K.E. Stephan (2013). Variational Bayesian mixed-effects inference for
