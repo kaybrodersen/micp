@@ -8,7 +8,7 @@ test_that("safesigm returns at least 1e-8", {
   expect_equal(safesigm(-100), 1e-8)
 })
 
-test_that("safesigm works on scalar input", {
+test_that("safesigm works on vector input", {
   expect_equal(safesigm(c(1, -100)), c(0.7310586, 1e-8), tolerance = 1e-6)
 })
 
