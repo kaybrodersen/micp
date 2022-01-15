@@ -6,6 +6,8 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/kaybrodersen/micp/workflows/R-CMD-check/badge.svg)](https://github.com/kaybrodersen/micp/actions)
+[![Codecov test
+coverage](https://codecov.io/gh/kaybrodersen/micp/branch/main/graph/badge.svg)](https://app.codecov.io/gh/kaybrodersen/micp?branch=main)
 <!-- badges: end -->
 
 *The `micp` package implements variational Bayesian inference for the
