@@ -66,8 +66,9 @@ micp.stats <- function(ks, ns) {
             logitninv(0.975, q$mu.mu, 1 / sqrt(q$eta.mu)))
     stats <- list(mu = mu, p = p, ci = ci, q = q, model = "unb.vb")
 
-  } else if (is.matrix(ks)) {
+  } else {
     # Twofold normal-binomial model, VB.
+    assert_that(is.matrix(ks))
     qp <- vbicp.unb(ks[1, ], ns[1, ])
     qn <- vbicp.unb(ks[2, ], ns[2, ])
     mu <- logitnavgmean(qp$mu.mu, 1 / sqrt(qp$eta.mu),
@@ -85,8 +86,6 @@ micp.stats <- function(ks, ns) {
     }
     stats <- list(mu = mu, p = p, ci = ci, qp = qp, qn = qn, mu.phij = mu.phij,
                   model = "tnb.vb")
-  } else {
-    stop("unexpected input")
   }
   class(stats) <- "micp"
   return(stats)
